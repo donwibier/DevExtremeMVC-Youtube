@@ -1,0 +1,93 @@
+@page
+@using DevAVEF_MasterDetail.Models
+
+<h2 class="content-block">Home</h2>
+
+@(Html.DevExtreme().DataGrid<DevAVEF.MasterDetail.Models.EF.Orders>()
+	.DataSource(ds => ds.Mvc()
+		.Controller("Orders")
+		.LoadAction("Get")
+		.Key("OrderId")
+	)
+	.RemoteOperations(true)
+	.Columns(columns => {
+
+		columns.AddFor(m => m.OrderId);
+
+		columns.AddFor(m => m.OrderInvoiceNumber);
+
+		columns.AddFor(m => m.OrderCustomerId).Lookup(lookup => lookup
+			.DataSource(ds => ds.WebApi().Controller("Orders").LoadAction("CustomersLookup").Key("Value"))
+			.ValueExpr("Value")
+			.DisplayExpr("Text")
+		);
+
+		columns.AddFor(m => m.OrderCustomerLocationId);
+
+		columns.AddFor(m => m.OrderPoNumber);
+
+		columns.AddFor(m => m.OrderEmployeeId).Lookup(lookup => lookup
+			.DataSource(ds => ds.WebApi().Controller("Orders").LoadAction("EmployeesLookup").Key("Value"))
+					.ValueExpr("Value")
+					.DisplayExpr("Text")
+		);
+
+		columns.AddFor(m => m.OrderDate);
+	})
+	.Grouping(g => g.AutoExpandAll(false))
+	.GroupPanel(g => g.Visible(true))
+	.MasterDetail(md =>
+	{
+		md.Enabled(true);
+		md.Template(@<text>
+                    <div>Order Items</div>
+                   @(Html.DevExtreme().DataGrid<DevAVEF.MasterDetail.Models.EF.OrderItems>()
+						.DataSource(ds => ds.Mvc()
+							.Controller("OrderItems")
+							.LoadAction("Get")
+							.LoadParams(new { orderId = new JS("data.OrderId") })
+							.Key("OrderItemId")
+						)
+						.RemoteOperations(true)
+						.Columns(columns => {
+
+							columns.AddFor(m => m.OrderItemId);
+
+							columns.AddFor(m => m.OrderId).Lookup(lookup => lookup
+								.DataSource(ds => ds.WebApi().Controller("OrderItems").LoadAction("OrdersLookup").Key("Value"))
+								.ValueExpr("Value")
+								.DisplayExpr("Text")
+							);
+
+							columns.AddFor(m => m.OrderItemProductId).Lookup(lookup => lookup
+								.DataSource(ds => ds.WebApi().Controller("OrderItems").LoadAction("ProductsLookup").Key("Value"))
+								.ValueExpr("Value")
+								.DisplayExpr("Text")
+							);
+
+							columns.AddFor(m => m.OrderItemProductUnits);
+
+							columns.AddFor(m => m.OrderItemProductPrice);
+
+							columns.AddFor(m => m.OrderItemDiscount);
+
+							columns.AddFor(m => m.OrderItemTotal)
+								.Format(Format.Currency);
+						})						
+						.Summary(s => s.TotalItems(items => {
+      							items.AddFor(m => m.OrderItemProductUnits)
+      									.SummaryType(SummaryType.Sum)
+      									.DisplayFormat("Items: {0}");
+      							items.AddFor(m => m.OrderItemTotal)
+             							.SummaryType(SummaryType.Sum)
+             							.ValueFormat(Format.Currency)
+             							.DisplayFormat("Total: {0}");
+      					}))
+                          
+      
+                          
+      
+                    )
+					</text>);
+    })
+)
