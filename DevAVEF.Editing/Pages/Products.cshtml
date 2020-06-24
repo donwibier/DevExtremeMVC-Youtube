@@ -54,7 +54,16 @@
 
 		columns.AddFor(m => m.ProductBarcode).Visible(false);
 
-		columns.AddFor(m => m.ProductPrimaryImage).Visible(false);
+		columns.AddFor(m => m.ProductId)
+			.Width(100)
+            .AllowFiltering(false)
+            .AllowSorting(false)
+            .CellTemplate(@<text>
+                <div>
+                    <img src="/api/Products/PrimaryImage?id=<%- value %>" alt=""/>
+                </div>
+            </text>);
+			
 
 		columns.AddFor(m => m.ProductCost).Visible(false);
 
