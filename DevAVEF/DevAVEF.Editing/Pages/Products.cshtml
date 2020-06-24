@@ -1,0 +1,83 @@
+﻿@page
+@using DevAVEF_Editing.Models
+
+<h2 class="content-block">Home</h2>
+
+@(Html.DevExtreme().DataGrid<DevAVEF.Editing.Models.EF.Products>()
+	.DataSource(ds => ds.Mvc()
+		.Controller("Products")
+		.LoadAction("Get")
+		.InsertAction("Post")
+		.UpdateAction("Put")
+		.DeleteAction("Delete")
+		.Key("ProductId")
+	)
+	.ShowBorders(false)
+	.FilterRow(f => f.Visible(true))
+	.FocusedRowEnabled(true)
+	.RemoteOperations(true)
+	.ColumnChooser(c=>c.Enabled(true))
+	.Columns(columns => {
+
+		columns.AddFor(m => m.ProductId);
+
+		columns.AddFor(m => m.ProductName);
+
+		columns.AddFor(m => m.ProductDescription).Visible(false);
+
+		columns.AddFor(m => m.ProductProductionStart);
+
+		columns.AddFor(m => m.ProductAvailable);
+
+		columns.AddFor(m => m.ProductImage).Visible(false);
+
+
+		columns.AddFor(m => m.ProductSupportId).Lookup(lookup => lookup
+			.DataSource(ds => ds.WebApi().Controller("Products").LoadAction("EmployeesLookup").Key("Value"))
+			.ValueExpr("Value")
+			.DisplayExpr("Text")
+		).Caption("Support by");
+
+		columns.AddFor(m => m.ProductEngineerId).Lookup(lookup => lookup
+			.DataSource(ds => ds.WebApi().Controller("Products").LoadAction("EmployeesLookup").Key("Value"))
+			.ValueExpr("Value")
+			.DisplayExpr("Text")
+		)
+		.Caption("Engineer")
+		.Visible(false);
+
+		columns.AddFor(m => m.ProductCurrentInventory);
+
+		columns.AddFor(m => m.ProductBackorder);
+
+		columns.AddFor(m => m.ProductManufacturing).Visible(false);
+
+		columns.AddFor(m => m.ProductBarcode).Visible(false);
+
+		columns.AddFor(m => m.ProductPrimaryImage).Visible(false);
+
+		columns.AddFor(m => m.ProductCost).Visible(false);
+
+		columns.AddFor(m => m.ProductSalePrice);
+
+		columns.AddFor(m => m.ProductRetailPrice).Visible(false);
+
+		columns.AddFor(m => m.ProductConsumerRating);
+
+		columns.AddFor(m => m.ProductCategory).Visible(false);
+
+		columns.AddFor(m => m.SsmaTimeStamp).Visible(false);
+	})
+	.Editing(e => e
+		.AllowAdding(true)
+		.AllowUpdating(true)
+		.AllowDeleting(true)
+	)
+		.Paging(p => p.PageSize(10))
+	.Pager(p => p
+		.ShowPageSizeSelector(true)
+		.AllowedPageSizes(new[] { 5, 10, 20 })
+		.ShowInfo(true)
+	)
+
+)
