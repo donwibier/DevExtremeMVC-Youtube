@@ -3,7 +3,18 @@ body, html {
     min-height: 100%;
     height: 100%;
 }
-
+/* Added */
+.dx-tile-content {
+    height: 100%;
+}
+.dx-tile-content .image {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    display: block;
+}
+/* End Added */
 #app-side-nav-outer-toolbar {
     flex-direction: column;
     display: flex; 

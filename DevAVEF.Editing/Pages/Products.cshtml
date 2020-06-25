@@ -21,6 +21,17 @@
 
 		columns.AddFor(m => m.ProductId);
 
+		columns.AddFor(m => m.ProductId)
+			.Caption("Image")
+			.Width(100)
+            .AllowFiltering(false)
+            .AllowSorting(false)
+            .CellTemplate(@<text>
+                <div>
+                    <img src="/api/Products/PrimaryImage?id=<%- value %>" alt=""/>
+                </div>
+            </text>);
+
 		columns.AddFor(m => m.ProductName);
 
 		columns.AddFor(m => m.ProductDescription).Visible(false);
@@ -28,9 +39,6 @@
 		columns.AddFor(m => m.ProductProductionStart);
 
 		columns.AddFor(m => m.ProductAvailable);
-
-		columns.AddFor(m => m.ProductImage).Visible(false);
-
 
 		columns.AddFor(m => m.ProductSupportId).Lookup(lookup => lookup
 			.DataSource(ds => ds.WebApi().Controller("Products").LoadAction("EmployeesLookup").Key("Value"))
@@ -53,17 +61,6 @@
 		columns.AddFor(m => m.ProductManufacturing).Visible(false);
 
 		columns.AddFor(m => m.ProductBarcode).Visible(false);
-
-		columns.AddFor(m => m.ProductId)
-			.Width(100)
-            .AllowFiltering(false)
-            .AllowSorting(false)
-            .CellTemplate(@<text>
-                <div>
-                    <img src="/api/Products/PrimaryImage?id=<%- value %>" alt=""/>
-                </div>
-            </text>);
-			
 
 		columns.AddFor(m => m.ProductCost).Visible(false);
 
@@ -88,5 +85,24 @@
 		.AllowedPageSizes(new[] { 5, 10, 20 })
 		.ShowInfo(true)
 	)
+	.MasterDetail(md => {
+	md.Enabled(true);
+	md.AutoExpandAll(false);
+	md.Template(@<text>
+			<div>Product images</div>
+			@(Html.DevExtreme().TileView()
+				.DataSource(ds => ds.Mvc()
+						.Controller("ProductImages")
+						.LoadAction("Get")
+						.LoadParams(new { productId = new JS("data.ProductId") })
+				)
+				.NoDataText("<div>There are no additional images</div>")
+				.Height(120)
+				.Direction(Orientation.Horizontal)
+				.ItemTemplate("<div class=\"image\" style=\"background-image: url(/api/ProductImages/Image?id=<%- ImageId %>)\"></div>")
+			)
 
+		</text>);
+
+	})
 )

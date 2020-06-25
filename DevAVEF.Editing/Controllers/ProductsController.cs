@@ -15,7 +15,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -27,32 +26,6 @@ using System.Threading.Tasks;
 
 namespace DevAVEF.Editing.Controllers
 {
-    public static class ImageExtensions
-    {
-        static ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-        public static string GetMimeType(this Image image) 
-        { 
-            return image.RawFormat.GetMimeType(); 
-        }
-
-        public static byte[] CreateThumbArray(this Image image, int w, int h, out string mimeType)
-        {
-            mimeType = image.GetMimeType();
-            Image thumb = image.GetThumbnailImage(w, h, () => false, IntPtr.Zero);
-
-            using(var ms = new MemoryStream())
-            {
-                thumb.Save(ms, image.RawFormat);
-                return ms.ToArray();
-            }
-        }
-
-        public static string GetMimeType(this ImageFormat imageFormat)
-        {
-            return codecs.First(codec => codec.FormatID == imageFormat.Guid).MimeType;
-        }
-    }
-
     [Route("api/[controller]/[action]")]
     public class ProductsController : Controller
     {
@@ -96,20 +69,18 @@ namespace DevAVEF.Editing.Controllers
         [HttpGet]
         public IActionResult PrimaryImage(int id)
         {
-            var data = from i in _context.Products where i.ProductId == id select i;
-            //HttpResponseMessage response;
-            byte[] imgData = data.FirstOrDefault()?.ProductPrimaryImage;
-            if(imgData.Length > 0)
+            var data = _context.Products.Where(p => p.ProductId == id).FirstOrDefault();
+            if(data != null)
             {
-                string mimeType = string.Empty;
-                MemoryStream ms = new MemoryStream(imgData);
-                byte[] thumb = Image.FromStream(ms).CreateThumbArray(100, 100, out mimeType);
+                if(data.ProductPrimaryImage.Length > 0)
+                {
+                    string mimeType = string.Empty;
+                    byte[] thumb = data.ProductPrimaryImage.CreateThumbArray(60, 60, out mimeType);
 
-                return File(thumb, mimeType);
-            } else
-            {
-                return NotFound();
+                    return File(thumb, mimeType);
+                }
             }
+            return NotFound();
         }
 
         [HttpPost]
