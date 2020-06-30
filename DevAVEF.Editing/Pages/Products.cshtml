@@ -15,6 +15,12 @@
 	.ShowBorders(false)
 	.FilterRow(f => f.Visible(true))
 	.FocusedRowEnabled(true)
+	.Paging(p => p.PageSize(10))
+	.Pager(p => p
+		.ShowPageSizeSelector(true)
+		.AllowedPageSizes(new[] { 5, 10, 20 })
+		.ShowInfo(true)
+	)
 	.RemoteOperations(true)
 	.ColumnChooser(c=>c.Enabled(true))
 	.Columns(columns => {
@@ -79,12 +85,7 @@
 		.AllowUpdating(true)
 		.AllowDeleting(true)
 	)
-		.Paging(p => p.PageSize(10))
-	.Pager(p => p
-		.ShowPageSizeSelector(true)
-		.AllowedPageSizes(new[] { 5, 10, 20 })
-		.ShowInfo(true)
-	)
+
 	.MasterDetail(md => {
 	md.Enabled(true);
 	md.AutoExpandAll(false);
