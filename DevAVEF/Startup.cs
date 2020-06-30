@@ -41,14 +41,6 @@ namespace DevAVEF
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var locale = Configuration["SiteLocale"];
-            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
-            {
-                SupportedCultures = new List<CultureInfo> { new CultureInfo(locale) },
-                SupportedUICultures = new List<CultureInfo> { new CultureInfo(locale) },
-                DefaultRequestCulture = new RequestCulture(locale)
-            };
-            app.UseRequestLocalization(localizationOptions);
             if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,6 +61,15 @@ namespace DevAVEF
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+            var locale = Configuration["SiteLocale"] ?? "en-US";
+            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            {
+                SupportedCultures = new List<CultureInfo> { new CultureInfo(locale) },
+                SupportedUICultures = new List<CultureInfo> { new CultureInfo(locale) },
+                DefaultRequestCulture = new RequestCulture(locale)
+            };
+            app.UseRequestLocalization(localizationOptions);
+
         }
     }
 }
