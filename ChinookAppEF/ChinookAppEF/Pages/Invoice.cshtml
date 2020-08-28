@@ -1,0 +1,38 @@
+﻿@page
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<h2 class="content-block">@ViewData["Title"]</h2>
+
+@(Html.DevExtreme().DataGrid<ChinookAppEF.Models.DTO.DTOInvoice>()
+	.DataSource(ds => ds.Mvc()
+		.Controller("Invoice")
+		.LoadAction("Get")
+		.InsertAction("Post")
+		.UpdateAction("Put")
+		.DeleteAction("Delete")
+		.Key("InvoiceId")
+	)
+	.FilterRow(f => f.Visible(true))
+	.Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
+	.RemoteOperations(true)
+	.Columns(columns => {
+
+		columns.AddFor(m => m.InvoiceId).AllowEditing(false);
+
+		columns.AddFor(m => m.Date).SortIndex(0).SortOrder(SortOrder.Asc).AllowSorting(true);
+		columns.AddFor(m => m.CustomerId);
+		//columns.AddFor(m => m.Company).AllowEditing(false);
+		//columns.AddFor(m => m.LastName).AllowEditing(false);
+		//columns.AddFor(m => m.FirstName).AllowEditing(false);
+
+		columns.AddFor(m => m.Total);
+		columns.AddFor(m => m.ItemCount).AllowEditing(false);
+	})
+	.Editing(e => e
+		.AllowAdding(true)
+		.AllowUpdating(true)
+		.AllowDeleting(true)
+	)
+)
