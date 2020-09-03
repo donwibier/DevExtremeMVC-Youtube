@@ -1,38 +1,114 @@
 ﻿@page
+@using ChinookAppEF.Models
 @{
-    ViewData["Title"] = "Invoices";
+	ViewData["Title"] = "Invoices";
 }
 
 <h2 class="content-block">@ViewData["Title"]</h2>
 
-@(Html.DevExtreme().DataGrid<ChinookAppEF.Models.DTO.DTOInvoice>()
-	.DataSource(ds => ds.Mvc()
-		.Controller("Invoice")
-		.LoadAction("Get")
-		.InsertAction("Post")
-		.UpdateAction("Put")
-		.DeleteAction("Delete")
-		.Key("InvoiceId")
-	)
-	.FilterRow(f => f.Visible(true))
-	.Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
-	.RemoteOperations(true)
+@(Html.DevExtreme().DataGrid<DTOInvoice>()
+	.ConfigureAppGridSettings("Invoice", nameof(DTOInvoice.InvoiceId), false, true, false)
 	.Columns(columns => {
 
-		columns.AddFor(m => m.InvoiceId).AllowEditing(false);
+		columns.AddFor(m => m.InvoiceId);
 
 		columns.AddFor(m => m.Date).SortIndex(0).SortOrder(SortOrder.Asc).AllowSorting(true);
-		columns.AddFor(m => m.CustomerId);
-		//columns.AddFor(m => m.Company).AllowEditing(false);
-		//columns.AddFor(m => m.LastName).AllowEditing(false);
-		//columns.AddFor(m => m.FirstName).AllowEditing(false);
+		columns.AddFor(m => m.IsCorporate);
+		columns.AddFor(m => m.CustomerId)
+			.Lookup(lookup=> lookup
+				.DataSource(d => d.Mvc().Controller("Customer").LoadAction("Lookup").Key("CustomerId"))
+				.ValueExpr(nameof(DTOCustomerLookup.CustomerId))
+				.DisplayExpr(nameof(DTOCustomerLookup.DisplayName))
+			)
+			.EditCellTemplate(new TemplateName("DropDownBoxTemplate"));
 
 		columns.AddFor(m => m.Total);
-		columns.AddFor(m => m.ItemCount).AllowEditing(false);
+		columns.AddFor(m => m.ItemCount);
 	})
-	.Editing(e => e
-		.AllowAdding(true)
-		.AllowUpdating(true)
-		.AllowDeleting(true)
+	.Editing(e=>e.Mode(GridEditMode.Popup)
+			.AllowAdding(false)
+			.AllowUpdating(true)
+			.AllowDeleting(false)
+			//.AllowUpdating(true)
+			.Popup(p => p
+				.Title("Invoice Details")
+				.ShowTitle(true)
+				.Width(700)
+				.Height(525)
+				.Position(pos => pos
+					.My(HorizontalAlignment.Center, VerticalAlignment.Top)
+					.At(HorizontalAlignment.Center, VerticalAlignment.Top)
+					.Of(new JS("window"))
+				)
+			)
+			.Form(f => f.Items(items =>
+			{
+				items.AddGroup()
+					.ColCount(2)
+					.ColSpan(2)
+					.Items(groupItems =>
+					{
+						groupItems.AddSimpleFor(m => m.InvoiceId);
+						groupItems.AddSimpleFor(m => m.Date);
+					});
+
+				items.AddGroup()
+					.Caption("Customer")
+					.ColCount(2)
+					.ColSpan(2)
+					.Items(groupItems =>
+					{
+						groupItems.AddSimpleFor(m => m.CustomerId);
+
+					});
+			}))
 	)
+	
+	.FixEditingFromModel()
 )
+
+@using (Html.DevExtreme().NamedTemplate("DropDownBoxTemplate"))
+{
+	@(Html.DevExtreme().DropDownBox()
+		.DataSource(d => d.Mvc().Controller("Customer").LoadAction("Lookup").Key("CustomerId"))
+		.Value(new JS("value"))
+		.ValueExpr(nameof(DTOCustomerLookup.CustomerId))
+		.DisplayExpr(nameof(DTOCustomerLookup.DisplayName))
+		.DropDownOptions(options => options.Width(500))
+		.Option("setValue", new JS("setValue"))
+		.ContentTemplate(new TemplateName("ContentTemplate"))
+    )
+}
+
+@using (Html.DevExtreme().NamedTemplate("ContentTemplate"))
+{
+	@(Html.DevExtreme().DataGrid<DTOCustomerLookup>()		
+		.Height(350)
+		.Columns(c => {
+			c.AddFor(m=>m.Company);
+			c.AddFor(m=>m.LastName);
+			c.AddFor(m=>m.FirstName);
+		})
+		.Scrolling(s => s.Mode(GridScrollingMode.Virtual))
+		.HoverStateEnabled(true)
+		.Selection(s => s.Mode(SelectionMode.Single))
+		.SelectedRowKeys(new JS("[component.option('value')]"))
+		.FocusedRowEnabled(true)
+		.FocusedRowKey(new JS("component.option('value')"))
+		.OnSelectionChanged("function(selectionChangedArgs) { onSelectionChanged(selectionChangedArgs, component) }")
+		.ConfigureAppGridSettings("Customer", nameof(DTOCustomerLookup.CustomerId), false, false, false)
+    )
+}
+
+<script>
+    function onSelectionChanged(selectionChangedArgs, component) {
+        var setValue = component.option('setValue');
+        var selectedRowKey = selectionChangedArgs.selectedRowKeys[0];
+
+        component.option('value', selectedRowKey);
+        setValue(selectedRowKey);
+        if(selectionChangedArgs.selectedRowKeys.length > 0) {
+            component.close();
+        }
+    }
+</script>

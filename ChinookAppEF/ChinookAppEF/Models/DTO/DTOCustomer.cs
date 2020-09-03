@@ -5,6 +5,14 @@ using System.Threading.Tasks;
 
 namespace ChinookAppEF.Models.DTO
 {
+	public class DTOCustomerLookup
+	{
+		public int? CustomerId { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string Company { get; set; }
+		public string DisplayName { get; set; }
+	}
 	public class DTOCustomer
 	{
 		public int? CustomerId { get; set; }

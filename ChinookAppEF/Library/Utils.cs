@@ -33,15 +33,16 @@ namespace ChinookAppEF
 			}
 		};
 
+		static readonly BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 		static PropertyInfo[] GetInfo(Type objectType)
 		{
-			PropertyInfo[] props = cache.GetOrAdd(objectType, (key) => objectType.GetProperties());
+			PropertyInfo[] props = cache.GetOrAdd(objectType, (key) => objectType.GetProperties(flags));
 			Task.Run(CleanCache);
 			return props;
 		}
 		static PropertyInfo GetInfo(Type objectType, string propertyName)
 		{
-			PropertyInfo[] props = cache.GetOrAdd(objectType, (key) => objectType.GetProperties());
+			PropertyInfo[] props = cache.GetOrAdd(objectType, (key) => objectType.GetProperties(flags));
 			var result = GetInfo(objectType).Where(p => p.Name == propertyName).FirstOrDefault();
 			return result;
 		}
@@ -69,7 +70,9 @@ namespace ChinookAppEF
 			{ typeof(double), (pi, v) => Convert.ToDouble(v) },
 			{ typeof(DateTime), (pi, v) => Convert.ToDateTime(v) },
 			{ typeof(string), (pi, v) => Convert.ToString(v) },
-			{ typeof(long), (pi, v) => v?.GetType() == typeof(int) ? Convert.ToInt32(v) : v }
+			{ typeof(long), (pi, v) => v?.GetType() == typeof(int) ? Convert.ToInt32(v) : v },
+			{ typeof(Int32), (pi, v) => v?.GetType() == typeof(Int64) ? Convert.ToInt32(v.ToString()) : v },
+
 		};
 
 		public static void SetPropertyValue(this object obj, string propertyName, object value)

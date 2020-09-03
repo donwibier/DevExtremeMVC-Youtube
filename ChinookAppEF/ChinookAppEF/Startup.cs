@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using ChinookAppEF.Models;
+using ChinookAppEF.Models.DTO;
 using ChinookAppEF.Models.EF;
 using Library;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +36,8 @@ namespace ChinookAppEF
 			services.AddAutoMapper(typeof(Startup).Assembly);
 
 			//services.AddScoped<EFDatabase<ChinookContext>, EFDatabase<ChinookContext>>();
-			services.AddScoped<InvoiceStore, InvoiceStore>();
+			services.AddScoped<IDataStore<int, DTOInvoice>, InvoiceStore>();
+			services.AddScoped<IDataStore<int, DTOCustomer>, CustomerStore>();
 			// Add framework services.
 			services
 				.AddRazorPages()

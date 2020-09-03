@@ -10,6 +10,7 @@ namespace ChinookAppEF.Models.DTO
 	public class DTOInvoice
 	{
 		[Key]
+		[Display(Name = "#", AutoGenerateField = true)]
 		[Editable(false)]
 		public int? InvoiceId { get; set; }
 		[Required]
@@ -18,10 +19,14 @@ namespace ChinookAppEF.Models.DTO
 		public DateTime Date { get; set; }
 
 		public string Company { get; set; }
+
 		public string FirstName { get; set; }
-		[Required]
+
 		public string LastName { get; set; }
+
 		public decimal Total { get; set; }
+		[Editable(false)]
+		public bool IsCorporate { get; set; }
 		[Editable(false)]
 		public int? ItemCount { get; set; }
 

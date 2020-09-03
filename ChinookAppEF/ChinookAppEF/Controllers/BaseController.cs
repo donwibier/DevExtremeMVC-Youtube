@@ -1,11 +1,7 @@
-﻿using ChinookAppEF.Models.EF;
-using DevExtreme.AspNet.Data;
-using DevExtreme.AspNet.Mvc;
+﻿using DevExtreme.AspNet.Mvc;
 using Library;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -16,13 +12,21 @@ using System.Threading.Tasks;
 
 namespace ChinookAppEF.Controllers
 {
-	public abstract class BaseController<TKey, TModel> : Controller
+	public abstract class BaseController<TKey, TModel, TStore> : Controller
 		where TKey : IEquatable<TKey>
 		where TModel : class, new()
+		where TStore : IDataStore<TKey, TModel>
 	{
+		readonly IDataStore<TKey, TModel> mainDataStore;
+		public BaseController(IDataStore<TKey, TModel> mainDataStore)
+		{
+			this.mainDataStore = mainDataStore;
+		}
+
+		protected virtual IDataStore<TKey, TModel> DataStore { get => mainDataStore; }
 		protected virtual bool PrimaryKeyPagination { get => false; }
 
-		protected void PopulateModel(TModel model, string values)
+		protected virtual void PopulateModel(TModel model, string values)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -32,61 +36,54 @@ namespace ChinookAppEF.Controllers
 			valuesDict.AssignToObject(model);
 		}
 
-		//protected virtual async Task<IActionResult> PostAsync(string values)
-		//{
-		//	var model = new TModel();
-		//	PopulateModel(model, values);
+		protected virtual TModel CreateModel()
+		{
+			return new TModel();
+		}
 
-		//	if (!TryValidateModel(model))
-		//		return BadRequest(GetFullErrorMessage(ModelState));
+		public async virtual Task<IActionResult> Get(DataSourceLoadOptions loadOptions)
+		{
+			return Json(await mainDataStore.SelectWithOptionsAsync(loadOptions));
+		}
 
-		//	var result = _context.Add(PopulateEntity(model, new TDBEntity()));
-		//	await _context.SaveChangesAsync();
+		public virtual async Task<IActionResult> Post(string values)
+		{
+			var model = CreateModel();
+			PopulateModel(model, values);
 
-		//	return Json(result.Entity.GetPropertyValue<string>(PrimaryKey));
-		//}
+			if (!TryValidateModel(model))
+				return BadRequest(GetFullErrorMessage(ModelState));
 
+			var r = await mainDataStore.CreateAsync(model);
 
-		//protected virtual async Task<IActionResult> PutAsync(int key, string values)
-		//{
-		//	var dbItem = await _context.FindAsync<TDBEntity>(key);
-		//	if (dbItem == null)
-		//		return StatusCode(409, "Object not found");
+			if (r.Success)
+				return Json(r.Results.FirstOrDefault().ID);
+			else
+				return BadRequest(string.Join(" ", r.Messages(DataValidationResultType.Error)));
+		}
 
-		//	var model = dbItem.Assign(new TModel());
-		//	PopulateModel(model, values);
+		public async virtual Task<IActionResult> Put(TKey key, string values)
+		{
+			var model = mainDataStore.GetByKey(key);
+			PopulateModel(model, values);
 
-		//	if (!TryValidateModel(model))
-		//		return BadRequest(GetFullErrorMessage(ModelState));
+			if (!TryValidateModel(model))
+				return BadRequest(GetFullErrorMessage(ModelState));
 
-		//	PopulateEntity(model, dbItem);
+			var r = await mainDataStore.UpdateAsync(model);
 
-		//	await _context.SaveChangesAsync();
-		//	return Ok();
-		//}
+			if (r.Success)
+				return Json(r.Results.FirstOrDefault().ID);
+			else
+				return BadRequest(string.Join(" ", r.Messages(DataValidationResultType.Error)));
+		}
 
-
-		//protected virtual async Task DeleteAsync(int key)
-		//{
-		//	var model = await _context.FindAsync<TDBEntity>(key);
-
-		//	DBSet.Remove(model);
-		//	await _context.SaveChangesAsync();
-		//}
-
-
-		//[HttpGet]
-		//public async Task<IActionResult> EmployeeLookup(DataSourceLoadOptions loadOptions)
-		//{
-		//	var lookup = from i in _context.Employee
-		//				 orderby i.Title
-		//				 select new
-		//				 {
-		//					 Value = i.EmployeeId,
-		//					 Text = i.Title
-		//				 };
-		//	return Json(await DataSourceLoader.LoadAsync(lookup, loadOptions));
-		//}
+		public async virtual Task Delete(TKey key)
+		{
+			var result = await mainDataStore.DeleteAsync(key);
+			if (!result.Success)
+				throw new DataValidationException<TKey>(result);
+		}
 
 		protected string GetFullErrorMessage(ModelStateDictionary modelState)
 		{

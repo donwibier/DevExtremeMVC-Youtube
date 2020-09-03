@@ -1,5 +1,6 @@
 ﻿using ChinookAppEF.Models;
 using ChinookAppEF.Models.DTO;
+using ChinookAppEF.Models.EF;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Library;
@@ -17,17 +18,30 @@ using System.Threading.Tasks;
 namespace ChinookAppEF.Controllers
 {
 	[Route("api/[controller]/[action]")]
-	public class InvoiceController : BaseController<int, DTOInvoice, InvoiceStore>
+	public class CustomerController : BaseController<int, DTOCustomer, CustomerStore>
 	{
-		public InvoiceController(IDataStore<int, DTOInvoice> mainDataStore) : base(mainDataStore)
+		public CustomerController(IDataStore<int, DTOCustomer> mainDataStore) : base(mainDataStore)
 		{
 
 		}
+
 		[HttpGet]
 		public async override Task<IActionResult> Get(DataSourceLoadOptions loadOptions)
 		{
 			return await base.Get(loadOptions);
 		}
+
+		public async Task<IActionResult> Lookup(DataSourceLoadOptions loadOptions)
+		{
+			if (loadOptions == null)
+				throw new ArgumentNullException(nameof(loadOptions));
+
+			var result = DataStore.Query<DTOCustomerLookup>();
+			var loadResult = await DataSourceLoader.LoadAsync(result, loadOptions);
+			return Json(loadResult);
+
+		}
+
 		[HttpPost]
 		public async override Task<IActionResult> Post(string values)
 		{
@@ -43,5 +57,7 @@ namespace ChinookAppEF.Controllers
 		{
 			await base.Delete(key);
 		}
+
+
 	}
 }

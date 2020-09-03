@@ -4,18 +4,52 @@ using ChinookAppEF;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Library
 {
-	public abstract class EFDataStore<TEFContext, TKey, TModel, TDBModel>
+	public interface IDataStore<TKey, TModel>
+		where TKey : IEquatable<TKey>
+		where TModel : class, new()
+	{
+		IMapper Mapper { get; }
+
+		TModel GetByKey(TKey key);
+
+		Task<LoadResult> SelectWithOptionsAsync(DataSourceLoadOptionsBase loadOptions);
+
+		DataValidationResults<TKey> Create(params TModel[] items);
+
+		Task<DataValidationResults<TKey>> CreateAsync(params TModel[] items);
+
+		DataValidationResults<TKey> Update(params TModel[] items);
+
+		Task<DataValidationResults<TKey>> UpdateAsync(params TModel[] items);
+
+		DataValidationResults<TKey> Store(params TModel[] items);
+
+		Task<DataValidationResults<TKey>> StoreAsync(params TModel[] items);
+
+		DataValidationResults<TKey> Delete(params TKey[] ids);
+
+		Task<DataValidationResults<TKey>> DeleteAsync(params TKey[] ids);
+
+		IQueryable<T> Query<T>() where T : class, new();
+
+		IQueryable<TModel> Query();
+
+		TKey ModelKey(TModel model);
+	}
+
+	public abstract class EFDataStore<TEFContext, TKey, TModel, TDBModel> : IDataStore<TKey, TModel>
 		where TEFContext : DbContext, new()
 		where TKey : IEquatable<TKey>
 		where TModel : class, new()
@@ -44,6 +78,7 @@ namespace Library
 		{
 			return DbContext.Find<TDBModel>(key);
 		}
+
 		public virtual TModel GetByKey(TKey key)
 		{
 			TDBModel result = EFGetByKey(key);
@@ -58,6 +93,11 @@ namespace Library
 			return results;
 		}
 
+		public virtual IQueryable<T> Query<T>()
+			where T : class, new()
+		{
+			return EFQuery().ProjectTo<T>(Mapper.ConfigurationProvider);
+		}
 		public virtual IQueryable<TModel> Query()
 		{
 			return EFQuery().ProjectTo<TModel>(Mapper.ConfigurationProvider);
@@ -77,9 +117,33 @@ namespace Library
 			if (items == null)
 				throw new ArgumentNullException(nameof(items));
 
-			var result = InternalStore(items, StoreMode.Create, true);
+			var result = TransactionalExec((s, t) =>
+			{
+				DataValidationResults<TKey> r = new DataValidationResults<TKey>();
+
+				foreach (var item in items)
+				{
+					r = InternalCreate(s, t, item, r);
+				}
+				try
+				{
+					s.DbContext.SaveChanges();
+					t.Commit();
+				}
+				catch (Exception e)
+				{
+					r.Add(new DataValidationResult<TKey>
+					{
+						ResultType = DataValidationResultType.Error,
+						Message = e.InnerException != null ? e.InnerException.Message : e.Message
+					});
+				}
+				return r;
+			},
+										false);
 			return result;
 		}
+
 
 		public async virtual Task<DataValidationResults<TKey>> CreateAsync(params TModel[] items)
 		{
@@ -91,7 +155,30 @@ namespace Library
 			if (items == null)
 				throw new ArgumentNullException(nameof(items));
 
-			var result = InternalStore(items, StoreMode.Update, true);
+			var result = TransactionalExec((s, t) =>
+			{
+				DataValidationResults<TKey> r = new DataValidationResults<TKey>();
+
+				foreach (var item in items)
+				{
+					r = InternalUpdate(s, t, ModelKey(item), item, r);
+				}
+				try
+				{
+					s.DbContext.SaveChanges();
+					t.Commit();
+				}
+				catch (Exception e)
+				{
+					r.Add(new DataValidationResult<TKey>
+					{
+						ResultType = DataValidationResultType.Error,
+						Message = e.InnerException != null ? e.InnerException.Message : e.Message
+					});
+				}
+				return r;
+			},
+										false);
 			return result;
 		}
 
@@ -105,7 +192,33 @@ namespace Library
 			if (items == null)
 				throw new ArgumentNullException(nameof(items));
 
-			var result = InternalStore(items, StoreMode.Store, true);
+			var result = TransactionalExec((s, t) =>
+			{
+				DataValidationResults<TKey> r = new DataValidationResults<TKey>();
+
+				foreach (var item in items)
+				{
+					var key = ModelKey(item);
+					r = (EmptyKeyValue.Equals(key))
+						? InternalCreate(s, t, item, r, false)
+						: InternalUpdate(s, t, key, item, r, false);
+				}
+				try
+				{
+					s.DbContext.SaveChanges();
+					t.Commit();
+				}
+				catch (Exception e)
+				{
+					r.Add(new DataValidationResult<TKey>
+					{
+						ResultType = DataValidationResultType.Error,
+						Message = e.InnerException != null ? e.InnerException.Message : e.Message
+					});
+				}
+				return r;
+			},
+										false);
 			return result;
 		}
 
@@ -119,55 +232,34 @@ namespace Library
 			if (ids == null)
 				throw new ArgumentNullException(nameof(ids));
 
-			var result = new DataValidationResults<TKey>();
-			using (var dbTransaction = DbContext.Database.BeginTransaction())
+
+			var result = TransactionalExec((s, t) =>
 			{
+				DataValidationResults<TKey> r = new DataValidationResults<TKey>();
+
 				foreach (var id in ids)
 				{
-					var item = DbContext.Set<TDBModel>().Find(id);
-					if (item == null)
-					{
-						result.Add(DataValidationResultType.Error,
-								DBModelKey(item),
-								"KeyField",
-								$"Unable to locate {typeof(TDBModel).Name}({DBModelKey(item)}) in datastore",
-								0);
-						break;
-					}
-					var canDelete = Validator?.Deleting(id, result, item);
-					if (canDelete.ResultType == DataValidationResultType.Error)
-					{
-						dbTransaction.Rollback();
-						result.Add(canDelete);
-						break;
-					}
-
-					DbContext.Entry(item).State = EntityState.Deleted;
-
-					var hasDeleted = Validator?.Deleted(id, item, result);
-					if (hasDeleted.ResultType == DataValidationResultType.Error)
-					{
-						dbTransaction.Rollback();
-						result.Add(hasDeleted);
-						break;
-					}
+					r = InternalDelete(s, t, id, r);
 				}
 				try
 				{
-					DbContext.SaveChanges();
-					dbTransaction.Commit();
+					s.DbContext.SaveChanges();
+					t.Commit();
 				}
 				catch (Exception e)
 				{
-					result.Add(new DataValidationResult<TKey>
+					r.Add(new DataValidationResult<TKey>
 					{
 						ResultType = DataValidationResultType.Error,
 						Message = e.InnerException != null ? e.InnerException.Message : e.Message
 					});
 				}
-			}
+				return r;
+			},
+										false);
 			return result;
 		}
+
 		public async virtual Task<DataValidationResults<TKey>> DeleteAsync(params TKey[] ids)
 		{
 			return await Task.FromResult(Delete(ids));
@@ -175,171 +267,120 @@ namespace Library
 
 		protected TKey EmptyKeyValue => default;
 
-
-
-
-		protected virtual DataValidationResults<TKey> InternalStore(IEnumerable<TModel> items,
-																	StoreMode mode,
-																	bool continueOnError)
+		protected virtual T TransactionalExec<T>(Func<EFDataStore<TEFContext, TKey, TModel, TDBModel>,
+			IDbContextTransaction, T> work,
+			bool autoCommit = true)
 		{
-			if (items == null)
-				throw new ArgumentNullException(nameof(items));
-
-			DataValidationResults<TKey> result = new DataValidationResults<TKey>();
-
-			// need to keep the db entities together with the model items so we can update 
-			// the id's of the models afterwards.
-			Dictionary<TDBModel, InsertHelper> batchPairs = new Dictionary<TDBModel, InsertHelper>();
-			using (var dbTransaction = DbContext.Database.BeginTransaction())
+			T result = default;
+			using (var dbTrans = DbContext.Database.BeginTransaction())
 			{
-				foreach (var item in items)
-				{
-					var modelKey = ModelKey(item);
-					if (modelKey.Equals(EmptyKeyValue) || mode == StoreMode.Create)
-					{
-						var canInsert = Validator?.Inserting(item, result);
-						if (canInsert.ResultType == DataValidationResultType.Error)
-						{
-							result.Add(canInsert);
-							if (!continueOnError)
-							{
-								dbTransaction.Rollback();
-								break;
-							}
-						}
-
-						var newItem = new TDBModel();
-						Mapper.Map(item, newItem);
-						DbContext.Set<TDBModel>().Add(newItem);
-						DbContext.SaveChanges();
-
-						var hasInserted = Validator?.Inserted(default, item, newItem, result);
-						if (hasInserted.ResultType == DataValidationResultType.Error)
-						{
-							result.Add(hasInserted);
-							if (!continueOnError)
-							{
-								dbTransaction.Rollback();
-								break;
-							}
-						}
-						batchPairs.Add(newItem, new InsertHelper(item, canInsert, hasInserted));
-					}
-					else if (!modelKey.Equals(EmptyKeyValue) && (mode != StoreMode.Create))
-					{
-						var canUpdate = Validator?.Updating(modelKey, item, result);
-						if (canUpdate.ResultType == DataValidationResultType.Error)
-						{
-							result.Add(canUpdate);
-							if (!continueOnError)
-							{
-								dbTransaction.Rollback();
-								break;
-							}
-						}
-
-						var updatedItem = EFGetByKey(modelKey);
-						if (updatedItem == null)
-						{
-							result.Add(DataValidationResultType.Error,
-								modelKey,
-								"KeyField",
-								$"Unable to locate {typeof(TDBModel).Name}({modelKey}) in datastore",
-								0);
-							break;
-						}
-
-						Mapper.Map(item, updatedItem);
-						DbContext.Entry(updatedItem).State = EntityState.Modified;
-						//DbContext.SaveChanges();
-
-						var hasUpdated = Validator?.Updated(modelKey, item, updatedItem, result);
-						if (hasUpdated.ResultType == DataValidationResultType.Error)
-						{
-							result.Add(hasUpdated);
-							if (!continueOnError)
-							{
-								dbTransaction.Rollback();
-								break;
-							}
-						}
-					}
-				}
-				try
+				result = work(this, dbTrans);
+				if (autoCommit && DbContext.ChangeTracker.HasChanges())
 				{
 					DbContext.SaveChanges();
-					dbTransaction.Commit();
-				}
-				catch (Exception e)
-				{
-					result.Add(new DataValidationResult<TKey>
-					{
-						ResultType = DataValidationResultType.Error,
-						Message = e.InnerException != null ? e.InnerException.Message : e.Message
-					});
+					dbTrans.Commit();
 				}
 			}
-
-			//	try
-			//	{
-			//		w.ObjectSaved += (s, e) =>
-			//		{
-			//			// sync the model ids with the newly generated xpo id's
-			//			var xpoItem = e.Object as TXPOClass;
-			//			if (xpoItem != null && batchPairs.ContainsKey(xpoItem))
-			//			{
-			//				batchPairs[xpoItem].Model.ID = xpoItem.ID;
-			//				batchPairs[xpoItem].InsertingResult.ID = xpoItem.ID;
-			//				batchPairs[xpoItem].InsertedResult.ID = xpoItem.ID;
-			//			}
-			//		};
-			//		w.FailedCommitTransaction += (s, e) =>
-			//		{
-			//			r.Add(new DataValidationResult<TKey>
-			//			{
-			//				ResultType = DataValidationResultType.Error,
-			//				Message = e.Exception.InnerException != null ? e.Exception.InnerException.Message : e.Exception.Message
-			//			});
-
-			//			e.Handled = true;
-			//		};
-			//		w.CommitTransaction();
-			//	}
-			//	catch
-			//	{
-			//		w.RollbackTransaction();
-			//	}
-			//	return r;
-			//});
-
 			return result;
 		}
-		/// <summary>
-		/// Small internal helper class to keep track of results
-		/// </summary>
-		class InsertHelper
+
+		protected virtual void TransactionalExec<T>(Action<EFDataStore<TEFContext, TKey, TModel, TDBModel>, IDbContextTransaction> work,
+													bool autoCommit = true)
 		{
-			public InsertHelper(TModel model,
-								DataValidationResult<TKey> insertingResult,
-								DataValidationResult<TKey> insertedResult)
+			using (var dbTrans = DbContext.Database.BeginTransaction())
 			{
-				Model = model;
-				InsertingResult = insertingResult;
-				InsertedResult = insertedResult;
+				work(this, dbTrans);
+				if (autoCommit && DbContext.ChangeTracker.HasChanges())
+				{
+					DbContext.SaveChanges();
+					dbTrans.Commit();
+				}
 			}
-
-			public TModel Model { get; private set; }
-
-			public DataValidationResult<TKey> InsertingResult { get; private set; }
-
-			public DataValidationResult<TKey> InsertedResult { get; private set; }
 		}
 
-		protected enum StoreMode
+		protected virtual DataValidationResults<TKey> InternalCreate(EFDataStore<TEFContext, TKey, TModel, TDBModel> store,
+																	IDbContextTransaction trans,
+																	TModel item,
+																	DataValidationResults<TKey> results,
+																	bool continueOnError = false)
 		{
-			Create,
-			Update,
-			Store
+			var canInsert = Validator?.Inserting(item, results);
+			results.Add(canInsert);
+			if (canInsert.ResultType == DataValidationResultType.Error && !continueOnError)
+				return results;
+
+			var newItem = new TDBModel();
+			Mapper.Map(item, newItem);
+			DbContext.Set<TDBModel>().Add(newItem);
+			DbContext.SaveChanges();
+
+			var hasInserted = Validator?.Inserted(default, item, newItem, results);
+			results.Add(hasInserted);
+			return results;
+		}
+
+		protected virtual DataValidationResults<TKey> InternalUpdate(EFDataStore<TEFContext, TKey, TModel, TDBModel> store,
+																	IDbContextTransaction trans,
+																	TKey key,
+																	TModel item,
+																	DataValidationResults<TKey> results,
+																	bool continueOnError = false)
+		{
+			var canUpdate = Validator?.Updating(key, item, results);
+			results.Add(canUpdate);
+			if (canUpdate.ResultType == DataValidationResultType.Error && !continueOnError)
+				return results;
+
+			var dbModel = EFGetByKey(key);
+			if (dbModel == null)
+			{
+				results.Add(DataValidationResultType.Error,
+							key,
+							"KeyField",
+							$"Unable to locate {typeof(TDBModel).Name}({key}) in datastore",
+							0);
+			}
+			else
+			{
+				Mapper.Map(item, dbModel);
+				DbContext.Entry(dbModel).State = EntityState.Modified;
+				DbContext.SaveChanges();
+
+				var hasUpdated = Validator?.Inserted(key, item, dbModel, results);
+				results.Add(hasUpdated);
+			}
+			return results;
+		}
+
+		protected virtual DataValidationResults<TKey> InternalDelete(EFDataStore<TEFContext, TKey, TModel, TDBModel> store,
+																	IDbContextTransaction trans,
+																	TKey key,
+																	DataValidationResults<TKey> results,
+																	bool continueOnError = false)
+		{
+			var canDelete = Validator?.Deleting(key, results);
+			results.Add(canDelete);
+			if (canDelete.ResultType == DataValidationResultType.Error && !continueOnError)
+				return results;
+
+			var dbModel = EFGetByKey(key);
+			if (dbModel == null)
+			{
+				results.Add(DataValidationResultType.Error,
+							key,
+							"KeyField",
+							$"Unable to locate {typeof(TDBModel).Name}({key}) in datastore",
+							0);
+			}
+			else
+			{
+				DbContext.Entry(dbModel).State = EntityState.Deleted;
+				DbContext.SaveChanges();
+
+				var hasDeleted = Validator?.Deleted(key, dbModel, results);
+				results.Add(hasDeleted);
+			}
+			return results;
 		}
 	}
 }
