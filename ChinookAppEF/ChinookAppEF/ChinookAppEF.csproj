@@ -5,12 +5,22 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Reports\InvoiceRpt.repx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Reports\InvoiceRpt.repx" />
+    </ItemGroup>
+
+    <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="20.1.7" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="20.1.7" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.7.0" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="20.1.6" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="20.1.7" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -18,6 +28,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Library\Library.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Reports\InvoiceRpt.cs">
+        <DependentUpon>InvoiceRpt.repx</DependentUpon>
+      </Compile>
+      <Compile Update="Reports\InvoiceRpt.Designer.cs">
+        <DependentUpon>InvoiceRpt.repx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>

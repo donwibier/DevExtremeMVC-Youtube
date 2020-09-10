@@ -3,9 +3,12 @@ using AutoMapper;
 using ChinookAppEF.Models;
 using ChinookAppEF.Models.DTO;
 using ChinookAppEF.Models.EF;
+using DevExpress.AspNetCore;
+using DevExpress.AspNetCore.Reporting;
 using Library;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +18,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ChinookAppEF
@@ -34,19 +38,32 @@ namespace ChinookAppEF
 			var connStr = Configuration.GetConnectionString("ChinookConnection");
 			services.AddDbContext<ChinookContext>(options => options.UseSqlServer(connStr));
 			services.AddAutoMapper(typeof(Startup).Assembly);
+			services.AddDevExpressControls();
 
-			//services.AddScoped<EFDatabase<ChinookContext>, EFDatabase<ChinookContext>>();
 			services.AddScoped<IDataStore<int, DTOInvoice>, InvoiceStore>();
 			services.AddScoped<IDataStore<int, DTOCustomer>, CustomerStore>();
 			// Add framework services.
 			services
 				.AddRazorPages()
+				.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
 				.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+
+			services.ConfigureReportingServices(configurator =>
+			{
+				configurator.ConfigureWebDocumentViewer(viewerConfigurator =>
+				{
+					viewerConfigurator.UseCachedReportSourceBuilder();
+				});
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseDevExpressControls();
+			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -54,7 +71,10 @@ namespace ChinookAppEF
 			else
 			{
 				app.UseExceptionHandler("/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
 			}
+			app.UseHttpsRedirection();
 
 			app.UseStaticFiles();
 
