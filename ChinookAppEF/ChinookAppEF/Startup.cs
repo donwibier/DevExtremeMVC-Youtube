@@ -3,8 +3,10 @@ using AutoMapper;
 using ChinookAppEF.Models;
 using ChinookAppEF.Models.DTO;
 using ChinookAppEF.Models.EF;
+using ChinookAppEF.Reports;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
+using DevExpress.XtraReports.Web.WebDocumentViewer;
 using Library;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +42,10 @@ namespace ChinookAppEF
 			services.AddAutoMapper(typeof(Startup).Assembly);
 			services.AddDevExpressControls();
 
+			services.AddSingleton<IWebDocumentViewerReportResolver, ReportResolver>();
+
 			services.AddScoped<IDataStore<int, DTOInvoice>, InvoiceStore>();
+			services.AddScoped<IDataStore<int, DTOInvoiceLine>, InvoiceLineStore>();
 			services.AddScoped<IDataStore<int, DTOCustomer>, CustomerStore>();
 			// Add framework services.
 			services

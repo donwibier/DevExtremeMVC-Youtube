@@ -32,7 +32,7 @@
 			// Uncomment to use the Diagram control
 			//"wwwroot/js/devextreme/dx-diagram.js",
 
-			"wwwroot/js/devextreme/jquery.js",
+			//"wwwroot/js/devextreme/jquery.js",
 
 			// Uncomment to use Globalize for localization
 			// Docs: https://docs.devexpress.com/AspNetCore/400577#globalize

@@ -24,6 +24,15 @@
 
 		columns.AddFor(m => m.Total);
 		columns.AddFor(m => m.ItemCount);
+		columns.AddFor(m => m.InvoiceId)
+            .Width(50)
+            .AllowFiltering(false)
+            .AllowSorting(false)
+            .CellTemplate(@<text>
+                <div>
+                    <a target="_blank" href="Reports/Invoice/<%- value %>">Invoice</a>
+                </div>
+            </text>);
 	})
 	.Editing(e=>e.Mode(GridEditMode.Popup)
 			.AllowAdding(false)
@@ -63,7 +72,7 @@
 					});
 			}))
 	)
-	
+
 	.FixEditingFromModel()
 )
 
@@ -82,7 +91,7 @@
 
 @using (Html.DevExtreme().NamedTemplate("ContentTemplate"))
 {
-	@(Html.DevExtreme().DataGrid<DTOCustomerLookup>()		
+	@(Html.DevExtreme().DataGrid<DTOCustomerLookup>()
 		.Height(350)
 		.Columns(c => {
 			c.AddFor(m=>m.Company);
@@ -101,14 +110,14 @@
 }
 
 <script>
-    function onSelectionChanged(selectionChangedArgs, component) {
-        var setValue = component.option('setValue');
-        var selectedRowKey = selectionChangedArgs.selectedRowKeys[0];
+	function onSelectionChanged(selectionChangedArgs, component) {
+		var setValue = component.option('setValue');
+		var selectedRowKey = selectionChangedArgs.selectedRowKeys[0];
 
-        component.option('value', selectedRowKey);
-        setValue(selectedRowKey);
-        if(selectionChangedArgs.selectedRowKeys.length > 0) {
-            component.close();
-        }
-    }
+		component.option('value', selectedRowKey);
+		setValue(selectedRowKey);
+		if (selectionChangedArgs.selectedRowKeys.length > 0) {
+			component.close();
+		}
+	}
 </script>

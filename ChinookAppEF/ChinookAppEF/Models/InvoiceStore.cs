@@ -32,10 +32,38 @@ namespace ChinookAppEF.Models
 		{
 			return EFQuery().Include(i => i.Customer).FirstOrDefault(i => i.InvoiceId == key);
 		}
-
 	}
 
 	public class InvoiceValidator : DataValidator<ChinookContext, int, DTOInvoice, Invoice>
+	{
+	}
+
+
+	public class InvoiceLineStore : EFDataStore<ChinookContext, int, DTOInvoiceLine, InvoiceLine>
+	{
+		public InvoiceLineStore(ChinookContext db, IMapper mapper)
+			: base(db, mapper, new InvoiceLineValidator())
+		{
+
+		}
+
+		public override int DBModelKey(InvoiceLine model)
+		{
+			return model.InvoiceId;
+		}
+
+		public override int ModelKey(DTOInvoiceLine model)
+		{
+			return model.InvoiceId;
+		}
+
+		//protected override EF.Invoice EFGetByKey(int key)
+		//{
+		//	return EFQuery().Include(i => i.Customer).FirstOrDefault(i => i.InvoiceId == key);
+		//}
+
+	}
+	public class InvoiceLineValidator : DataValidator<ChinookContext, int, DTOInvoiceLine, InvoiceLine>
 	{
 	}
 

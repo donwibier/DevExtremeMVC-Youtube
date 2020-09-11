@@ -4,7 +4,11 @@ using ChinookAppEF.Models.DTO;
 using ChinookAppEF.Models.EF;
 using DevExpress.DataAccess;
 using DevExpress.DataAccess.ObjectBinding;
+using Library;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,10 +46,24 @@ namespace ChinookAppEF.Reports
 			using (var ctx = new ChinookContext())
 			{
 				var mapCfg = new MapperConfiguration(cfg => cfg.AddProfile<MapperProfile>());
-				var store = new InvoiceStore(ctx, mapCfg.CreateMapper());
+				var map = mapCfg.CreateMapper();
+				var invoiceStore = new InvoiceStore(ctx, map);
+				var invoiceLineStore = new InvoiceLineStore(ctx, map);
 
-				var results = store.Query<DTOReportingInvoice>().Where(i => invoiceIds.Contains(i.InvoiceId));
-				return results;
+				var invoices = invoiceStore.Query<DTOReportingInvoice>()
+					.Where(i => invoiceIds.Contains(i.InvoiceId)).ToList();
+
+				var lines = invoiceLineStore.Query()
+					.Where(i => invoiceIds.Contains(i.InvoiceId)).ToList();
+
+				foreach (var invoice in invoices)
+				{
+					lines.RemoveAll(i => i.InvoiceId == invoice.InvoiceId,
+									o => invoice.InvoiceLines.Add(o));
+				}
+
+				var r = invoices.ToList();
+				return r;
 			}
 		}
 	}
