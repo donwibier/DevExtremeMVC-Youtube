@@ -17,9 +17,6 @@ using System.Threading.Tasks;
 
 namespace ChinookAppEF.Reports
 {
-	public class ReportDatasources
-	{
-	}
 	[DisplayName("Invoices")]
 	[HighlightedClass]
 	public class InvoiceDatasource
@@ -36,9 +33,10 @@ namespace ChinookAppEF.Reports
 		}
 
 		[HighlightedMember]
-		public InvoiceDatasource(IEnumerable<int> invoiceIds)
+		public InvoiceDatasource(string invoiceIds)
 		{
-			this.invoiceIds = invoiceIds.ToArray();
+			this.invoiceIds = invoiceIds.Split(',')
+				.Select(i => Convert.ToInt32(i.Trim())).ToArray();
 		}
 		[HighlightedMember]
 		public IEnumerable<DTOReportingInvoice> GetInvoiceList()

@@ -8,6 +8,7 @@
 
 @(Html.DevExtreme().DataGrid<DTOInvoice>()
 	.ConfigureAppGridSettings("Invoice", nameof(DTOInvoice.InvoiceId), false, true, false)
+	.Selection(s => s.Mode(SelectionMode.Multiple))
 	.Columns(columns => {
 
 		columns.AddFor(m => m.InvoiceId);
@@ -15,24 +16,27 @@
 		columns.AddFor(m => m.Date).SortIndex(0).SortOrder(SortOrder.Asc).AllowSorting(true);
 		columns.AddFor(m => m.IsCorporate);
 		columns.AddFor(m => m.CustomerId)
-			.Lookup(lookup=> lookup
-				.DataSource(d => d.Mvc().Controller("Customer").LoadAction("Lookup").Key("CustomerId"))
-				.ValueExpr(nameof(DTOCustomerLookup.CustomerId))
-				.DisplayExpr(nameof(DTOCustomerLookup.DisplayName))
-			)
-			.EditCellTemplate(new TemplateName("DropDownBoxTemplate"));
+				.Lookup(lookup=> lookup
+					.DataSource(d => d.Mvc().Controller("Customer").LoadAction("Lookup").Key("CustomerId"))
+					.ValueExpr(nameof(DTOCustomerLookup.CustomerId))
+					.DisplayExpr(nameof(DTOCustomerLookup.DisplayName))
+				)
+				.EditCellTemplate(new TemplateName("DropDownBoxTemplate"));
 
 		columns.AddFor(m => m.Total);
 		columns.AddFor(m => m.ItemCount);
 		columns.AddFor(m => m.InvoiceId)
-            .Width(50)
-            .AllowFiltering(false)
-            .AllowSorting(false)
-            .CellTemplate(@<text>
-                <div>
-                    <a target="_blank" href="Reports/Invoice/<%- value %>">Invoice</a>
-                </div>
-            </text>);
+				.Width(50)
+				.AllowFiltering(false)
+				.AllowSorting(false)
+				.CellTemplate(@<text>
+					@(Html.DevExtreme().Button()
+						.Icon("exportpdf")
+						.Type(ButtonType.Normal)
+						.UseSubmitBehavior(false)
+						.OnClick("function(args) { window.location.href = '/Reports/Invoice/' + value; args.stopPropagation(); }")
+						)
+		</text>);
 	})
 	.Editing(e=>e.Mode(GridEditMode.Popup)
 			.AllowAdding(false)
@@ -110,6 +114,9 @@
 }
 
 <script>
+	function onPdfClick(id) {
+		window.location.href = 'Reports/Invoice/' + id;
+	}
 	function onSelectionChanged(selectionChangedArgs, component) {
 		var setValue = component.option('setValue');
 		var selectedRowKey = selectionChangedArgs.selectedRowKeys[0];

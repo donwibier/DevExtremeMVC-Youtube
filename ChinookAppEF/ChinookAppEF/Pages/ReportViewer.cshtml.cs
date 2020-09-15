@@ -10,9 +10,10 @@ namespace ChinookAppEF.Pages
 {
 	public class ReportViewerModel : PageModel
 	{
+		[BindProperty(Name = "reportType")]
 		public string ReportType { get; set; }
 
-		[BindProperty(SupportsGet = true, Name = "ids")]
+		[BindProperty(Name = "ids")]
 		public int[] ItemIDs { get; set; }
 
 		public string ReportCommand { get => $"{ReportType}?ids={(string.Join(",", ItemIDs))}"; }
@@ -21,6 +22,10 @@ namespace ChinookAppEF.Pages
 		{
 			ReportType = reportType;
 			ItemIDs = new int[] { id };
+		}
+		public void OnPost()
+		{
+
 		}
 	}
 }

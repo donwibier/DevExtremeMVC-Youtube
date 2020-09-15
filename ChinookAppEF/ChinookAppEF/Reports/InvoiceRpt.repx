@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XtraReportsLayoutSerializer SerializerVersion="20.1.7.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="InvoiceRpt" PaperKind="A4" PageWidth="827" PageHeight="1169" Version="20.1" DataSource="#Ref-0">
   <Parameters>
-    <Item1 Ref="3" Visible="false" Description="InvoiceID to process" ValueInfo="0" Name="invoiceId" Type="#Ref-2" />
+    <Item1 Ref="3" Visible="false" Description="Comma separated list of InvoiceIDs to process" Name="invoiceIds" />
   </Parameters>
   <Bands>
     <Item1 Ref="4" ControlType="TopMarginBand" Name="topMarginBand1" HeightF="99.58334">
@@ -12,37 +12,37 @@
     </Item1>
     <Item2 Ref="7" ControlType="DetailBand" Name="detailBand1" HeightF="150.416718">
       <Controls>
-        <Item1 Ref="8" ControlType="XRLabel" Name="label21" Multiline="true" Text="label21" SizeF="289.583344,23" LocationFloat="9.999974,102.000076" Padding="2,2,0,0,96">
+        <Item1 Ref="8" ControlType="XRLabel" Name="label21" Multiline="true" Text="label21" SizeF="289.583344,23" LocationFloat="9.999974,102.000076" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="9" EventName="BeforePrint" PropertyName="Text" Expression="[BillingCountry]" />
           </ExpressionBindings>
         </Item1>
-        <Item2 Ref="10" ControlType="XRLabel" Name="label16" Multiline="true" Text="label16" SizeF="68.75,23" LocationFloat="230.833313,79.00006" Padding="2,2,0,0,96">
+        <Item2 Ref="10" ControlType="XRLabel" Name="label16" Multiline="true" Text="label16" SizeF="68.75,23" LocationFloat="230.833313,79.00006" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="11" EventName="BeforePrint" PropertyName="Text" Expression="[BillingState]" />
           </ExpressionBindings>
         </Item2>
-        <Item3 Ref="12" ControlType="XRLabel" Name="label15" Multiline="true" Text="label15" SizeF="167.708344,23" LocationFloat="63.1249733,79.00006" Padding="2,2,0,0,96">
+        <Item3 Ref="12" ControlType="XRLabel" Name="label15" Multiline="true" Text="label15" SizeF="167.708344,23" LocationFloat="63.1249733,79.00006" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="13" EventName="BeforePrint" PropertyName="Text" Expression="[BillingCity]" />
           </ExpressionBindings>
         </Item3>
-        <Item4 Ref="14" ControlType="XRLabel" Name="label14" Multiline="true" Text="label14" SizeF="53.125,23" LocationFloat="9.999974,79.00006" Padding="2,2,0,0,96">
+        <Item4 Ref="14" ControlType="XRLabel" Name="label14" Multiline="true" Text="label14" SizeF="53.125,23" LocationFloat="9.999974,79.00006" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[BillingPostalCode]" />
           </ExpressionBindings>
         </Item4>
-        <Item5 Ref="16" ControlType="XRLabel" Name="label13" Multiline="true" Text="label13" SizeF="289.583344,23.0000038" LocationFloat="9.999974,56.000042" Padding="2,2,0,0,96">
+        <Item5 Ref="16" ControlType="XRLabel" Name="label13" Multiline="true" Text="label13" SizeF="289.583344,23.0000038" LocationFloat="9.999974,56.000042" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="17" EventName="BeforePrint" PropertyName="Text" Expression="[BillingAddress]" />
           </ExpressionBindings>
         </Item5>
-        <Item6 Ref="18" ControlType="XRLabel" Name="label12" Multiline="true" Text="label12" SizeF="289.583344,23.0000038" LocationFloat="9.999974,33.0000229" Padding="2,2,0,0,96">
+        <Item6 Ref="18" ControlType="XRLabel" Name="label12" Multiline="true" Text="label12" SizeF="289.583344,23.0000038" LocationFloat="9.999974,33.0000229" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="19" EventName="BeforePrint" PropertyName="Text" Expression="[ContactName]" />
           </ExpressionBindings>
         </Item6>
-        <Item7 Ref="20" ControlType="XRLabel" Name="label11" Multiline="true" Text="label11" SizeF="289.583344,23" LocationFloat="9.999974,10.0000067" Padding="2,2,0,0,96">
+        <Item7 Ref="20" ControlType="XRLabel" Name="label11" Multiline="true" Text="label11" SizeF="289.583344,23" LocationFloat="9.999974,10.0000067" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[CompanyName]" />
           </ExpressionBindings>
@@ -116,9 +116,6 @@
     <Item5 Ref="50" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="28.5416279" />
   </Bands>
   <ComponentStorage>
-    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v20.1" Name="objectDataSource2" Base64="PE9iamVjdERhdGFTb3VyY2UgTmFtZT0ib2JqZWN0RGF0YVNvdXJjZTIiPjxEYXRhU291cmNlIFR5cGU9IkNoaW5vb2tBcHBFRi5SZXBvcnRzLkludm9pY2VEYXRhc291cmNlLCBDaGlub29rQXBwRUYsIFZlcnNpb249MS4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsIiAvPjxEYXRhTWVtYmVyPkdldEludm9pY2VMaXN0PC9EYXRhTWVtYmVyPjxDb25zdHJ1Y3Rvcj48UGFyYW1ldGVyIE5hbWU9Imludm9pY2VJZCIgVHlwZT0iRGV2RXhwcmVzcy5EYXRhQWNjZXNzLkV4cHJlc3Npb24iPihTeXN0ZW0uSW50MzIpKD9pbnZvaWNlSWQpPC9QYXJhbWV0ZXI+PC9Db25zdHJ1Y3Rvcj48L09iamVjdERhdGFTb3VyY2U+" />
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v20.1" Name="objectDataSource2" Base64="PE9iamVjdERhdGFTb3VyY2UgTmFtZT0ib2JqZWN0RGF0YVNvdXJjZTIiPjxEYXRhU291cmNlIFR5cGU9IkNoaW5vb2tBcHBFRi5SZXBvcnRzLkludm9pY2VEYXRhc291cmNlLCBDaGlub29rQXBwRUYsIFZlcnNpb249MS4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsIiAvPjxEYXRhTWVtYmVyPkdldEludm9pY2VMaXN0PC9EYXRhTWVtYmVyPjxDb25zdHJ1Y3Rvcj48UGFyYW1ldGVyIE5hbWU9Imludm9pY2VJZCIgVHlwZT0iRGV2RXhwcmVzcy5EYXRhQWNjZXNzLkV4cHJlc3Npb24iPihTeXN0ZW0uSW50MzIpKD9pbnZvaWNlSWRzKTwvUGFyYW1ldGVyPjwvQ29uc3RydWN0b3I+PC9PYmplY3REYXRhU291cmNlPg==" />
   </ComponentStorage>
-  <ObjectStorage>
-    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v20.1" Ref="2" Content="System.Int32" Type="System.Type" />
-  </ObjectStorage>
 </XtraReportsLayoutSerializer>

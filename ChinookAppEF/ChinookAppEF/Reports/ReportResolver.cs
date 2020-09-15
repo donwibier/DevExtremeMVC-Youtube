@@ -25,7 +25,8 @@ namespace ChinookAppEF.Reports
 				case "Invoice":
 					{
 						var report = new InvoiceRpt();
-						report.Parameters["invoiceId"].Value = Convert.ToInt32(pars["ids"]);
+						var ids = pars["ids"].Select(i => i).ToArray();
+						report.Parameters["invoiceIds"].Value = string.Join(',', ids);
 						return report;
 					}
 				default:
