@@ -1,0 +1,23 @@
+﻿@page "/ReportsDesigner/{reportType}"
+
+@using DevExpress
+@using ChinookAppEF.Reports
+
+@{
+	ViewData["Title"] = "Reportviewer";
+}
+
+@model ChinookAppEF.Pages.ReportViewerModel
+
+<link rel="stylesheet" href="~/css/viewer.part.bundle.css" />
+<link rel="stylesheet" href="~/css/designer.part.bundle.css" />
+
+<script src="~/js/viewer.part.bundle.js"></script>
+<script src="~/js/designer.part.bundle.js"></script>
+
+<h2 class="content-block">@ViewData["Title"]</h2>
+
+@Html.DevExpress().ReportDesigner("documentViewer").Height("1000px").Bind(Model.ReportType)
+@{
+
+}

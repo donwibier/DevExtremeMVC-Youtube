@@ -6,6 +6,7 @@ using ChinookAppEF.Models.EF;
 using ChinookAppEF.Reports;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
+using DevExpress.XtraReports.Web.Extensions;
 using DevExpress.XtraReports.Web.WebDocumentViewer;
 using Library;
 using Microsoft.AspNetCore.Builder;
@@ -42,7 +43,8 @@ namespace ChinookAppEF
 			services.AddAutoMapper(typeof(Startup).Assembly);
 			services.AddDevExpressControls();
 
-			services.AddSingleton<IWebDocumentViewerReportResolver, ReportResolver>();
+			//services.AddSingleton<IWebDocumentViewerReportResolver, ReportResolver>();
+			services.AddScoped<ReportStorageWebExtension, Reports.ReportWebStorage>();
 
 			services.AddScoped<IDataStore<int, DTOInvoice>, InvoiceStore>();
 			services.AddScoped<IDataStore<int, DTOInvoiceLine>, InvoiceLineStore>();
@@ -52,6 +54,18 @@ namespace ChinookAppEF
 				.AddRazorPages()
 				.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
 				.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+			services.ConfigureReportingServices(configurator =>
+			{
+				configurator.ConfigureReportDesigner(designerConfigurator =>
+				{
+					designerConfigurator.RegisterDataSourceWizardConfigFileConnectionStringsProvider();
+				});
+				configurator.ConfigureWebDocumentViewer(viewerConfigurator =>
+				{
+					viewerConfigurator.UseCachedReportSourceBuilder();
+				});
+			});
 
 
 			services.ConfigureReportingServices(configurator =>
@@ -66,6 +80,7 @@ namespace ChinookAppEF
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			DevExpress.XtraReports.Configuration.Settings.Default.UserDesignerOptions.DataBindingMode = DevExpress.XtraReports.UI.DataBindingMode.Expressions;
 			app.UseDevExpressControls();
 			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
