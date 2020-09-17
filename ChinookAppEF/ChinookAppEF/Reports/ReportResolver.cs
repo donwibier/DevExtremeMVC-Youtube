@@ -16,17 +16,16 @@ namespace ChinookAppEF.Reports
 
 		public XtraReport Resolve(string reportUniqueName)
 		{
-			//Uri u = new Uri(reportUniqueName);
 			var parts = reportUniqueName.Split('?');
-			string reportName = parts[0]; // reportUniqueName.Substring(0, reportUniqueName.IndexOf("?"));
+			string reportName = parts[0];
 			var pars = QueryHelpers.ParseQuery(parts[1]);
 			switch (reportName)
 			{
 				case "Invoice":
 					{
 						var report = new InvoiceRpt();
-						var ids = pars["ids"].Select(i => i).ToArray();
-						report.Parameters["invoiceIds"].Value = string.Join(',', ids);
+						var ids = pars["ids"].SelectMany(i => i.Split(',').Select(j => Convert.ToInt32(j))).ToArray();
+						report.Parameters["invoiceIds"].Value = ids;
 						return report;
 					}
 				default:

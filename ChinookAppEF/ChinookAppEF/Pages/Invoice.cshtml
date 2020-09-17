@@ -9,6 +9,8 @@
 @(Html.DevExtreme().DataGrid<DTOInvoice>()
 	.ConfigureAppGridSettings("Invoice", nameof(DTOInvoice.InvoiceId), false, true, false)
 	.Selection(s => s.Mode(SelectionMode.Multiple))
+	.OnToolbarPreparing("onMainGridToolbarPreparing")
+	.OnSelectionChanged("onMainGridSelectionChanged")	
 	.Columns(columns => {
 
 		columns.AddFor(m => m.InvoiceId);
@@ -30,56 +32,55 @@
 				.AllowFiltering(false)
 				.AllowSorting(false)
 				.CellTemplate(@<text>
-					@(Html.DevExtreme().Button()
+					@(Html.DevExtreme()
+						.Button()
 						.Icon("exportpdf")
 						.Type(ButtonType.Normal)
 						.UseSubmitBehavior(false)
-						.OnClick("function(args) { window.location.href = '/Reports/Invoice/' + value; args.stopPropagation(); }")
-						)
+						.OnClick("function(args) { openReport(value); args.stopPropagation(); }")						)
 		</text>);
 	})
-	.Editing(e=>e.Mode(GridEditMode.Popup)
-			.AllowAdding(false)
-			.AllowUpdating(true)
-			.AllowDeleting(false)
-			//.AllowUpdating(true)
-			.Popup(p => p
+	.Editing(e => e.Mode(GridEditMode.Popup)
+		.AllowAdding(false)
+		.AllowUpdating(true)
+		.AllowDeleting(false)
+		//.AllowUpdating(true)
+		.Popup(p => p
 				.Title("Invoice Details")
-				.ShowTitle(true)
-				.Width(700)
-				.Height(525)
-				.Position(pos => pos
+			.ShowTitle(true)
+			.Width(700)
+			.Height(525)
+			.Position(pos => pos
 					.My(HorizontalAlignment.Center, VerticalAlignment.Top)
-					.At(HorizontalAlignment.Center, VerticalAlignment.Top)
-					.Of(new JS("window"))
-				)
-			)
-			.Form(f => f.Items(items =>
-			{
-				items.AddGroup()
-					.ColCount(2)
-					.ColSpan(2)
-					.Items(groupItems =>
-					{
-						groupItems.AddSimpleFor(m => m.InvoiceId);
-						groupItems.AddSimpleFor(m => m.Date);
-					});
+				.At(HorizontalAlignment.Center, VerticalAlignment.Top)
+				.Of(new JS("window"))))
+		.Form(f => f.Items(items =>
+		{
+			items.AddGroup()
+				.ColCount(2)
+				.ColSpan(2)
+				.Items(groupItems =>
+				{
+					groupItems.AddSimpleFor(m => m.InvoiceId);
+					groupItems.AddSimpleFor(m => m.Date);
+				});
 
-				items.AddGroup()
-					.Caption("Customer")
-					.ColCount(2)
-					.ColSpan(2)
-					.Items(groupItems =>
-					{
-						groupItems.AddSimpleFor(m => m.CustomerId);
-
-					});
-			}))
+			items.AddGroup()
+				.Caption("Customer")
+				.ColCount(2)
+				.ColSpan(2)
+				.Items(groupItems =>
+				{
+					groupItems.AddSimpleFor(m => m.CustomerId);
+				});
+		}))
 	)
 
 	.FixEditingFromModel()
 )
-
+<form id="frmReport" method="post" action="~/Reports/Invoice">
+	<input type="hidden" id="reportSelectedIds" name="reportSelectedIds" />
+</form>
 @using (Html.DevExtreme().NamedTemplate("DropDownBoxTemplate"))
 {
 	@(Html.DevExtreme().DropDownBox()
@@ -114,8 +115,31 @@
 }
 
 <script>
-	function onPdfClick(id) {
-		window.location.href = 'Reports/Invoice/' + id;
+	function onMainGridToolbarPreparing(args) {
+		var items = args.toolbarOptions.items;
+		items.push({
+			widget: "dxButton",
+			options: {
+				icon: "exportpdf",
+				onClick: function (e) { 					
+					openReport(args.component.getSelectedRowKeys().join(','));
+				}
+			},
+			location: "after"
+		});
+	}
+	function openReport(ids) {
+		if (ids !== '') {
+			document.getElementById("reportSelectedIds").value = ids;
+			document.forms["frmReport"].submit();
+		}
+		else
+			alert('No invoices selected')
+	}
+	function onMainGridSelectionChanged(selectionChangedArgs, component) {
+		//debugger;
+		var selectedRowKeys = selectionChangedArgs.selectedRowKeys;
+
 	}
 	function onSelectionChanged(selectionChangedArgs, component) {
 		var setValue = component.option('setValue');

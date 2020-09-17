@@ -26,18 +26,13 @@ namespace ChinookAppEF.Reports
 		{
 			invoiceIds = new int[] { 10 };
 		}
-		[HighlightedMember]
-		public InvoiceDatasource(int invoiceId)
-		{
-			invoiceIds = new int[] { invoiceId };
-		}
 
 		[HighlightedMember]
-		public InvoiceDatasource(string invoiceIds)
+		public InvoiceDatasource(int[] invoiceIds)
 		{
-			this.invoiceIds = invoiceIds.Split(',')
-				.Select(i => Convert.ToInt32(i.Trim())).ToArray();
+			this.invoiceIds = invoiceIds;
 		}
+
 		[HighlightedMember]
 		public IEnumerable<DTOReportingInvoice> GetInvoiceList()
 		{

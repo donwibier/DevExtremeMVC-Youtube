@@ -10,10 +10,10 @@ namespace ChinookAppEF.Reports
 			InitializeComponent();
 		}
 
-		public InvoiceRpt(int invoiceID)
-			: this()
-		{
+		//public InvoiceRpt(int invoiceID)
+		//	: this()
+		//{
 
-		}
+		//}
 	}
 }
