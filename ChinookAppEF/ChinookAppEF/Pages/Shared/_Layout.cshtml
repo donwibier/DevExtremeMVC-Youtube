@@ -65,37 +65,23 @@
     </div>
 
     @using(Html.DevExtreme().NamedTemplate("navigation-menu")) {
-        <div class="menu-container dx-swatch-additional">
+<div class="menu-container dx-swatch-additional">
 
-            @functions{
-                string GetUrl(string pageName) => Url.Page(pageName);
-                string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
-                bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
-            }
-
-            @(Html.DevExtreme().TreeView()
+	@functions{
+		string GetUrl(string pageName) => Url.Page(pageName);
+		string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
+		bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
+	}
+	@(Html.DevExtreme().TreeView()
 				.Items(items => {
-					items.Add()
-						.Text("Home")
-						.Icon("home")
-						.Option("path", GetUrl("Index"))
-						.Selected(IsCurrentUrl("Index"));
-					items.Add()
-						.Text("Invoices")
-						.Icon("money")
-						.Option("path", GetUrl("Invoice"))
-						.Selected(IsCurrentUrl("Invoice"));
-					items.Add()
-						.Text("Customers")
-						.Icon("group")
-						.Option("path", GetUrl("Customer"))
-						.Selected(IsCurrentUrl("Customer"));
-
-					items.Add()
-						.Text("About")
-						.Icon("info")
-						.Option("path", GetUrl("About"))
-						.Selected(IsCurrentUrl("About"));
+					foreach(var nav in Library.NavigationHelper.GetItems(this.GetType().Assembly, Library.NavigationPosition.Left))
+                    {
+						items.Add()
+							.Text(nav.Title)
+							.Icon(nav.IconClass)
+							.Option("path", GetUrl(nav.Url))
+							.Selected(IsCurrentUrl(nav.Url));
+					}
 				})
 				.ExpandEvent(TreeViewExpandEvent.Click)
 				.SelectionMode(NavSelectionMode.Single)
@@ -103,8 +89,8 @@
 				.FocusStateEnabled(false)
 				.Width(250)
 				.OnItemClick("ChinookAppEF.onTreeViewItemClick")
-            )
-        </div>
+            )	
+</div>
     }
 
     <script>
