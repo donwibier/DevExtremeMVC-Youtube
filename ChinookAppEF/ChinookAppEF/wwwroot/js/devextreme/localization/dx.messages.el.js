@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.el.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "\u039c\u03b5\u03c4\u03b1\u03c6\u03cc\u03c1\u03c4\u03c9\u03c3\u03b7",
             "dxFileUploader-uploaded": "\u039c\u03b5\u03c4\u03b1\u03c6\u03bf\u03c1\u03c4\u03ce\u03b8\u03b7\u03ba\u03b5",
             "dxFileUploader-readyToUpload": "\u0388\u03c4\u03bf\u03b9\u03bc\u03bf \u03c0\u03c1\u03bf\u03c2 \u03bc\u03b5\u03c4\u03b1\u03c6\u03cc\u03c1\u03c4\u03c9\u03c3\u03b7",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "\u0397 \u03bc\u03b5\u03c4\u03b1\u03c6\u03cc\u03c1\u03c4\u03c9\u03c3\u03b7 \u03b1\u03c0\u03ad\u03c4\u03c5\u03c7\u03b5",
             "dxFileUploader-invalidFileExtension": "\u039f \u03c4\u03c5\u03c0\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03c0\u03b9\u03c4\u03c1\u03b5\u03c0\u03c4\u03cc\u03c2",
             "dxFileUploader-invalidMaxFileSize": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b5\u03af\u03bd\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf",
@@ -132,7 +133,7 @@
             "dxDataGrid-sortingClearText": "\u0395\u03ba\u03ba\u03b1\u03b8\u03ac\u03c1\u03b9\u03c3\u03b7 \u03c4\u03b1\u03be\u03b9\u03bd\u03cc\u03bc\u03b9\u03c3\u03b7\u03c2",
             "dxDataGrid-editingSaveAllChanges": "\u0391\u03c0\u03bf\u03b8\u03ae\u03ba\u03b5\u03c5\u03c3\u03b7 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ce\u03bd",
             "dxDataGrid-editingCancelAllChanges": "\u0391\u03c0\u03cc\u03c1\u03c1\u03b9\u03c8\u03b7 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ce\u03bd",
-            "dxDataGrid-editingAddRow": "\u03a0\u03c1\u03bf\u03c3\u03b8\u03ae\u03bb\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2",
+            "dxDataGrid-editingAddRow": "\u03a0\u03c1\u03bf\u03c3\u03b8\u03ae\u03ba\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2",
             "dxDataGrid-summaryMin": "Min: {0}",
             "dxDataGrid-summaryMinOtherColumn": "Min of {1} is {0}",
             "dxDataGrid-summaryMax": "Max: {0}",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "\u03a0\u03c1\u03bf\u03c3\u03b8\u03ad\u03c4\u03c9",
             "dxPager-infoText": "\u03a3\u03b5\u03bb\u03af\u03b4\u03b1 {0} \u03b1\u03c0\u03cc {1} ({2} \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03b1)",
             "dxPager-pagesCountText": "\u03b1\u03c0\u03cc",
+            "dxPager-pageSizesAllText": "\u038c\u03bb\u03b1",
             "dxPivotGrid-grandTotal": "\u03a3\u03cd\u03bd\u03bf\u03bb\u03bf",
             "dxPivotGrid-total": "{0} \u03a3\u03cd\u03bd\u03bf\u03bb\u03bf",
             "dxPivotGrid-fieldChooserTitle": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ad\u03b1\u03c2 \u03c0\u03b5\u03b4\u03af\u03bf\u03c5",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "\u0395\u03bd\u03b1\u03bb\u03bb\u03b1\u03ba\u03c4\u03b9\u03ba\u03cc \u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03bf",
             "dxHtmlEditor-dialogImageWidthField": "\u03a0\u03bb\u03ac\u03c4\u03bf\u03c2 (px)",
             "dxHtmlEditor-dialogImageHeightField": "\u03a5\u03c8\u03bf\u03c2 (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "\u0395\u03c0\u03b9\u03ba\u03b5\u03c6\u03b1\u03bb\u03af\u03b4\u03b1",
             "dxHtmlEditor-normalText": "\u039a\u03b1\u03bd\u03bf\u03bd\u03b9\u03ba\u03cc \u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03bf",
             "dxFileManager-newDirectoryName": "TODO",

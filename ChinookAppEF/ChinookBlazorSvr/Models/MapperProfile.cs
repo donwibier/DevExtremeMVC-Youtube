@@ -1,0 +1,87 @@
+﻿using AutoMapper;
+using ChinookBlazorSvr.Models.DTO;
+using ChinookBlazorSvr.Models.EF;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ChinookBlazorSvr.Models
+{
+	public class MapperProfile : Profile
+	{
+		public MapperProfile()
+		{
+			CreateMap<Invoice, DTOInvoice>()
+				.ForMember(d => d.Date, opt => opt.MapFrom(src => src.InvoiceDate))
+				.ForMember(d => d.CustomerId, opt => opt.MapFrom(src => src.CustomerId))
+				.ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Customer.Company))
+				.ForMember(d => d.FirstName, opt => opt.MapFrom(src => src.Customer.FirstName))
+				.ForMember(d => d.LastName, opt => opt.MapFrom(src => src.Customer.LastName))
+				.ForMember(d => d.ItemCount, opt => opt.MapFrom(src => src.InvoiceLines.Count()))
+				.ForMember(
+					d => d.IsCorporate,
+					opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Customer.Company)))
+				.ReverseMap()
+				.ForMember(q => q.Customer, option => option.Ignore())
+						/*.AfterMap((src, dst) =>
+						{
+							if (dst.Customer != null)
+							{
+								dst.Customer.LastName = src.LastName;
+								dst.Customer.FirstName = src.FirstName;
+								dst.Customer.Company = src.Company;
+							}
+						})*/;
+			CreateMap<Customer, DTOCustomer>()
+				.ReverseMap();
+			CreateMap<Customer, DTOCustomerLookup>()
+				.ForMember(
+					d => d.DisplayName,
+					opt => opt.MapFrom(
+						src => string.IsNullOrWhiteSpace(src.Company)
+							? $"{src.LastName}, {src.FirstName}"
+							: src.Company));
+			CreateMap<InvoiceLine, DTOInvoiceLine>()
+				.ForMember(d => d.TrackName, o => o.MapFrom(s => s.Track.Name))
+				.ForMember(d => d.Composer, o => o.MapFrom(s => s.Track.Composer))
+				.ForMember(d => d.MediaType, o => o.MapFrom(s => s.Track.MediaType.Name))
+				.ForMember(d => d.MediaTypeId, o => o.MapFrom(s => s.Track.MediaTypeId))
+				.ForMember(d => d.AlbumId, o => o.MapFrom(s => s.Track.Album.AlbumId))
+				.ForMember(d => d.AlbumName, o => o.MapFrom(s => s.Track.Album.Title))
+				.ForMember(d => d.ArtistName, o => o.MapFrom(s => s.Track.Album.Artist.Name))
+				.ForMember(d => d.Genre, o => o.MapFrom(s => s.Track.Genre.Name))
+				.ForMember(d => d.GenreId, o => o.MapFrom(s => s.Track.GenreId))
+				.ForMember(d => d.QuantityPrice, o => o.MapFrom(s => Convert.ToDecimal(s.Quantity * s.UnitPrice)));
+			CreateMap<Invoice, DTOReportingInvoice>()
+				.ForMember(d => d.InvoiceId, o => o.MapFrom(s => s.InvoiceId))
+				.ForMember(d => d.CustomerId, o => o.MapFrom(s => s.CustomerId))
+				.ForMember(d => d.InvoiceDate, o => o.MapFrom(s => s.InvoiceDate))
+				.ForMember(d => d.BillingAddress, o => o.MapFrom(s => s.BillingAddress))
+				.ForMember(d => d.BillingCity, o => o.MapFrom(s => s.BillingCity))
+				.ForMember(d => d.BillingState, o => o.MapFrom(s => s.BillingState))
+				.ForMember(d => d.BillingCountry, o => o.MapFrom(s => s.BillingCountry))
+				.ForMember(d => d.BillingPostalCode, o => o.MapFrom(s => s.BillingPostalCode))
+
+				.ForMember(d => d.IsCorporate, o => o.MapFrom(s => !string.IsNullOrWhiteSpace(s.Customer.Company)))
+
+				.ForMember(d => d.CompanyName, o => o.MapFrom(s => s.Customer.Company))
+				.ForMember(d => d.ContactName, o => o.MapFrom(s => $"{s.Customer.FirstName} {s.Customer.LastName}"))
+				//.ForMember(d => d.CompanyName, o => o.MapFrom(s => s.Customer.Company))						
+				.ForMember(d => d.ContactPhone, o => o.MapFrom(s => s.Customer.Phone))
+				.ForMember(d => d.ContactFax, o => o.MapFrom(s => s.Customer.Fax))
+				.ForMember(d => d.ContactEmail, o => o.MapFrom(s => s.Customer.Email))
+				.ForMember(
+					d => d.Total,
+					o => o.MapFrom(s => s.InvoiceLines.Sum(i => Convert.ToDecimal(i.Quantity * i.UnitPrice))));
+			CreateMap<Employee, DTOEmployee>()
+				.ForMember(d => d.DisplayName, o => o.MapFrom(s => $"{s.LastName}, {s.Title} {s.FirstName}"));
+			CreateMap<Employee, DTOEmployeeLookup>()
+				.ForMember(d => d.DisplayName, o => o.MapFrom(s => $"{s.LastName}, {s.Title} {s.FirstName}"));
+
+
+			//public virtual DTOCustomer Customer { get; set; } = new DTOCustomer();
+			//public virtual List<DTOReportingInvoiceLine> InvoiceLines { get; set; } = new List<DTOReportingInvoiceLine>();
+		}
+	}
+}

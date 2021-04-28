@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.zh.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "\u4e0a\u4f20",
             "dxFileUploader-uploaded": "\u5df2\u4e0a\u4f20",
             "dxFileUploader-readyToUpload": "\u51c6\u5907\u4e0a\u4f20",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "\u4e0a\u4f20\u5931\u8d25",
             "dxFileUploader-invalidFileExtension": "\u6587\u4ef6\u7c7b\u578b\u9519\u8bef",
             "dxFileUploader-invalidMaxFileSize": "\u6587\u4ef6\u8fc7\u5927",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "\u6dfb\u52a0",
             "dxPager-infoText": "\u7b2c{0}\u9875,\u5171{1}\u9875 ({2} \u4e2a\u9879\u76ee)",
             "dxPager-pagesCountText": "\u5230",
+            "dxPager-pageSizesAllText": "\u5168\u90e8",
             "dxPivotGrid-grandTotal": "\u5408\u8ba1",
             "dxPivotGrid-total": "{0} \u603b\u8ba1",
             "dxPivotGrid-fieldChooserTitle": "\u5b57\u6bb5\u9009\u62e9\u5668",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "\u66ff\u4ee3\u6587\u5b57",
             "dxHtmlEditor-dialogImageWidthField": "\u5bbd (px)",
             "dxHtmlEditor-dialogImageHeightField": "\u957f (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "\u6807\u9898",
             "dxHtmlEditor-normalText": "\u6b63\u6587",
             "dxFileManager-newDirectoryName": "TODO",

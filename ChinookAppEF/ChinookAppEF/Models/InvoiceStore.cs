@@ -67,4 +67,12 @@ namespace ChinookAppEF.Models
 	{
 	}
 
+
+	public class InvoiceStoreEx : EFDataStore<ChinookContext, int, DTOInvoice, Invoice>
+	{
+		public InvoiceStoreEx(ChinookContext context, IMapper mapper, DataValidator<ChinookContext, int, DTOInvoice, Invoice> validator) : base(context, mapper, validator)
+		{
+
+		}
+	}
 }

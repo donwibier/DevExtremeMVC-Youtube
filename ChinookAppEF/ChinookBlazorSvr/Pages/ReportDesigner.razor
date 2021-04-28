@@ -1,0 +1,12 @@
+﻿@page "/ReportDesigner/{reportType}"
+
+<DxReportDesigner ReportName="@ReportType" Height="850px" Width="100%">
+	<DxReportDesignerRequestOptions ReportDesignerHandlerUri="DesignerCsrf" />
+	<DxReportDesignerCallbacks BeforeRender="ReportingConfigureCsrf.onBeforeRender_configureCsrf" />
+</DxReportDesigner>
+
+@code {
+	[Parameter]
+	public string ReportType { get; set; }
+
+}

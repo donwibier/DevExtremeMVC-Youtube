@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.hu.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Felt\xf6lt\xe9s",
             "dxFileUploader-uploaded": "Felt\xf6ltve",
             "dxFileUploader-readyToUpload": "Felt\xf6lt\xe9sre k\xe9sz",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "A felt\xf6lt\xe9s sikertelen",
             "dxFileUploader-invalidFileExtension": "Nem enged\xe9lyezett f\xe1jlt\xedpus",
             "dxFileUploader-invalidMaxFileSize": "T\xfal nagy f\xe1jl",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "Hozz\xe1ad\xe1s",
             "dxPager-infoText": "Oldal: {0}/{1} ({2} elem)",
             "dxPager-pagesCountText": "/",
+            "dxPager-pageSizesAllText": "Mind",
             "dxPivotGrid-grandTotal": "Teljes \xf6sszeg",
             "dxPivotGrid-total": "{0} \xd6sszeg",
             "dxPivotGrid-fieldChooserTitle": "Mez\u0151v\xe1laszt\xf3",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "Alternat\xedv sz\xf6veg",
             "dxHtmlEditor-dialogImageWidthField": "Sz\xe9less\xe9g (px)",
             "dxHtmlEditor-dialogImageHeightField": "Magass\xe1g (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "Fejl\xe9c",
             "dxHtmlEditor-normalText": "Norm\xe1l sz\xf6veg",
             "dxFileManager-newDirectoryName": "N\xe9vtelen k\xf6nyvt\xe1r",

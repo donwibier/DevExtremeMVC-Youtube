@@ -1,0 +1,58 @@
+﻿@page "/"
+@implements IDisposable
+@inject IInvoiceViewModel ViewModel
+
+
+<h2 class="pb-2">Chinook Invoices</h2>
+<DxButton Text="Selection to PDF" Click="@((args)=>ViewModel.PDFSelectionClickAction())"></DxButton>
+<DxDataGrid CustomData="@ViewModel.GetInvoices" T="@DTOInvoice" ShowFilterRow="true"
+			KeyFieldName="@nameof(DTOInvoice.InvoiceId)"
+			SelectionMode="DataGridSelectionMode.OptimizedMultipleSelection"
+			SelectAllMode="DataGridSelectAllMode.AllPages"
+			OptimizedMultipleSelectionChanged="@ViewModel.OnSelectionChanged">
+	<DxDataGridSelectionColumn></DxDataGridSelectionColumn>
+	<DxDataGridSpinEditColumn Caption="Invoice #" Field="@nameof(DTOInvoice.InvoiceId)" />
+	<DxDataGridDateEditColumn Caption="Date" Field="@nameof(DTOInvoice.Date)" />
+	<DxDataGridCheckBoxColumn Caption="Is Corporate" Field="@nameof(DTOInvoice.IsCorporate)" />
+	<DxDataGridComboBoxColumn Caption="Customer" Field="@nameof(DTOInvoice.CustomerId)"
+							  T="@DTOCustomerLookup"
+							  TextFieldName="@nameof(DTOCustomerLookup.DisplayName)"
+							  ValueFieldName="@nameof(DTOCustomerLookup.CustomerId)"
+							  CustomData="@ViewModel.GetCustomersLookup">
+
+	</DxDataGridComboBoxColumn>
+	<DxDataGridSpinEditColumn Caption="Total" Field="@nameof(DTOInvoice.Total)" DisplayFormat="c" />
+	<DxDataGridSpinEditColumn Caption="Order items" Field="@nameof(DTOInvoice.ItemCount)" />
+	<DxDataGridColumn Field="@nameof(DTOInvoice.InvoiceId)" Caption=" ">
+		<DisplayTemplate>
+			<DxButton Text="PDF" Click="@((args)=>ViewModel.PDFSingleClickAction(context as DTOInvoice))"></DxButton>
+		</DisplayTemplate>
+	</DxDataGridColumn>
+</DxDataGrid>
+
+
+
+
+
+@code {
+
+	[CascadingParameter]
+	CascadingState AppState { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		ViewModel.OnStateChange += TriggerStateChanged;
+
+		await ViewModel.Initialize(AppState);
+	}
+
+	protected void TriggerStateChanged()
+	{
+		InvokeAsync(StateHasChanged);
+	}
+
+	public void Dispose()
+	{
+		ViewModel.OnStateChange -= TriggerStateChanged;
+	}
+}

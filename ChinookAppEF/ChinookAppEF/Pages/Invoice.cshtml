@@ -28,7 +28,7 @@
 
 		columns.AddFor(m => m.Total);
 		columns.AddFor(m => m.ItemCount);
-		columns.AddFor(m => m.InvoiceId)
+		columns.AddFor(m => m.InvoiceId).Name("InvID")
 				.Width(50)
 				.AllowFiltering(false)
 				.AllowSorting(false)

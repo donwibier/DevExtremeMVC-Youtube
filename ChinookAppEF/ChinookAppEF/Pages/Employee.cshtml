@@ -1,0 +1,47 @@
+﻿@page
+@attribute [Navigation("Employees", "Employee", 3, "group", NavigationPosition.Left)]
+@using ChinookAppEF.Models
+@{
+	ViewData["Title"] = "Employees";
+}
+
+<h2 class="content-block">@ViewData["Title"]</h2>
+@(Html.DevExtreme().DataGrid<DTOEmployee>
+	()
+	.ConfigureAppGridSettings("Employees", nameof(DTOEmployee.EmployeeId), false, true, false)
+	.Selection(s => s.Mode(SelectionMode.Multiple))
+	.Columns(columns => {
+
+		columns.AddFor(m => m.EmployeeId);
+		columns.AddFor(m => m.LastName);
+		columns.AddFor(m => m.FirstName);
+		columns.AddFor(m => m.Title);	
+		columns.AddFor(m => m.ReportsTo);
+		columns.AddFor(m => m.BirthDate);
+		columns.AddFor(m => m.HireDate);
+
+	})
+	.Editing(e => e.Mode(GridEditMode.Popup)
+	.AllowAdding(false)
+	.AllowUpdating(true)
+	.AllowDeleting(false)
+	//.AllowUpdating(true)
+	.Popup(p => p
+	.Title("Employee Details")
+	.ShowTitle(true)
+	.Width(700)
+	.Height(525)
+	.Position(pos => pos
+	.My(HorizontalAlignment.Center, VerticalAlignment.Top)
+	.At(HorizontalAlignment.Center, VerticalAlignment.Top)
+	.Of(new JS("window"))))
+	)
+
+	.FixEditingFromModel()
+	)
+
+
+
+
+	@{
+	}

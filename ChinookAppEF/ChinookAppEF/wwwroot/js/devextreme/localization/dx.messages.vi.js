@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.vi.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Upload",
             "dxFileUploader-uploaded": "\u0110\xe3 upload",
             "dxFileUploader-readyToUpload": "S\u1eb5n s\xe0ng \u0111\u1ec3 upload",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "Upload th\u1ea5t b\u1ea1i",
             "dxFileUploader-invalidFileExtension": "Ki\u1ec3u t\u1eadp tin kh\xf4ng cho ph\xe9p",
             "dxFileUploader-invalidMaxFileSize": "T\u1eadp tin qu\xe1 l\u1edbn",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "Th\xeam",
             "dxPager-infoText": "Trang {0} c\u1ee7a {1} ({2} m\u1ee5c)",
             "dxPager-pagesCountText": "c\u1ee7a",
+            "dxPager-pageSizesAllText": "T\u1ea5t c\u1ea3",
             "dxPivotGrid-grandTotal": "T\u1ed5ng t\u1ea5t c\u1ea3",
             "dxPivotGrid-total": "{0} T\u1ed5ng",
             "dxPivotGrid-fieldChooserTitle": "Tr\xecnh l\u1ef1a ch\u1ecdn Tr\u01b0\u1eddng",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "V\u0103n b\u1ea3n thay th\u1ebf",
             "dxHtmlEditor-dialogImageWidthField": "R\u1ed9ng (px)",
             "dxHtmlEditor-dialogImageHeightField": "Cao (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "Ti\xeau \u0111\u1ec1",
             "dxHtmlEditor-normalText": "Ch\u1eef b\xecnh th\u01b0\u1eddng",
             "dxFileManager-newDirectoryName": "Th\u01b0 m\u1ee5c kh\xf4ng t\xean",

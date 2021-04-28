@@ -1,5 +1,7 @@
 ﻿using DevExtreme.AspNet.Mvc;
 using DevExtreme.AspNet.Mvc.Builders;
+using Library
+	;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 using System;
 using System.Collections;
@@ -9,7 +11,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
 namespace ChinookAppEF.Models
 {
 	public static class AppGridExtensions

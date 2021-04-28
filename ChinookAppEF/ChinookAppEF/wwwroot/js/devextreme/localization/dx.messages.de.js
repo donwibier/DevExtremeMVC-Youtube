@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.de.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Hochladen",
             "dxFileUploader-uploaded": "Hochgeladen",
             "dxFileUploader-readyToUpload": "Bereit zum hochladen",
+            "dxFileUploader-uploadAbortedMessage": "Upload abgebrochen",
             "dxFileUploader-uploadFailedMessage": "Fehler beim hochladen",
             "dxFileUploader-invalidFileExtension": "Unzul\xe4ssiger Dateityp",
             "dxFileUploader-invalidMaxFileSize": "Datei ist zu gro\xdf",
@@ -156,6 +157,8 @@
             "dxDataGrid-headerFilterEmptyValue": "(Leerwerte)",
             "dxDataGrid-headerFilterOK": "OK",
             "dxDataGrid-headerFilterCancel": "Abbrechen",
+            "dxDataGrid-ariaAdaptiveCollapse": "Zus\xe4tzliche Spalten verstecken",
+            "dxDataGrid-ariaAdaptiveExpand": "Zus\xe4tzliche Spalten anzeigen",
             "dxDataGrid-ariaColumn": "Spalte",
             "dxDataGrid-ariaValue": "Wert",
             "dxDataGrid-ariaFilterCell": "Filterzelle",
@@ -165,14 +168,18 @@
             "dxDataGrid-ariaSearchInGrid": "Suchen in der Datentabelle",
             "dxDataGrid-ariaSelectAll": "Alle ausw\xe4hlen",
             "dxDataGrid-ariaSelectRow": "Zeile ausw\xe4hlen",
+            "dxDataGrid-ariaToolbar": "Symbolleiste der Datentabelle",
             "dxDataGrid-filterBuilderPopupTitle": "Filter-Generator",
             "dxDataGrid-filterPanelCreateFilter": "Filter erzeugen",
             "dxDataGrid-filterPanelClearFilter": "Zur\xfccksetzen",
             "dxDataGrid-filterPanelFilterEnabledHint": "Filter aktivieren",
             "dxTreeList-ariaTreeList": "Strukturliste",
+            "dxTreeList-ariaSearchInGrid": "Suchen in der Strukturliste",
+            "dxTreeList-ariaToolbar": "Symbolleiste der Strukturliste",
             "dxTreeList-editingAddRowToNode": "Hinzuf\xfcgen",
             "dxPager-infoText": "Seite {0} von {1} ({2} Elemente)",
             "dxPager-pagesCountText": "von",
+            "dxPager-pageSizesAllText": "Alle",
             "dxPivotGrid-grandTotal": "Gesamt",
             "dxPivotGrid-total": "{0} Gesamt",
             "dxPivotGrid-fieldChooserTitle": "Feldauswahl",
@@ -282,6 +289,9 @@
             "dxHtmlEditor-dialogImageAltField": "Alternativer Text",
             "dxHtmlEditor-dialogImageWidthField": "Breite (px)",
             "dxHtmlEditor-dialogImageHeightField": "Bildh\xf6he (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "Zeilen",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "Spalten",
+            "dxHtmlEditor-dialogInsertTableCaption": "Tabelle einf\xfcgen",
             "dxHtmlEditor-heading": "\xdcberschrift",
             "dxHtmlEditor-normalText": "Normaler Text",
             "dxFileManager-newDirectoryName": "Ohne Titel",
@@ -307,6 +317,7 @@
             "dxFileManager-commandThumbnails": "Miniaturansicht",
             "dxFileManager-commandDetails": "Detailansicht",
             "dxFileManager-commandClearSelection": "Auswahl aufheben",
+            "dxFileManager-commandShowNavPane": "Navigationsbereich ein-/ausschalten",
             "dxFileManager-dialogDirectoryChooserMoveTitle": "Verschieben nach",
             "dxFileManager-dialogDirectoryChooserMoveButtonText": "Verschieben",
             "dxFileManager-dialogDirectoryChooserCopyTitle": "Kopieren nach",

@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.cs.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Nahr\xe1t",
             "dxFileUploader-uploaded": "Nahr\xe1no",
             "dxFileUploader-readyToUpload": "P\u0159ipraveno k nahr\xe1n\xed",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "Nahr\xe1v\xe1n\xed selhalo",
             "dxFileUploader-invalidFileExtension": "",
             "dxFileUploader-invalidMaxFileSize": "",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "P\u0159idat",
             "dxPager-infoText": "Strana {0} ze {1} ({2} polo\u017eek)",
             "dxPager-pagesCountText": "ze",
+            "dxPager-pageSizesAllText": "V\u0161e",
             "dxPivotGrid-grandTotal": "Celkem",
             "dxPivotGrid-total": "{0} Celkem",
             "dxPivotGrid-fieldChooserTitle": "V\xfdb\u011br pole",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "!TODO!",
             "dxHtmlEditor-dialogImageWidthField": "!TODO!",
             "dxHtmlEditor-dialogImageHeightField": "!TODO!",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "!TODO!",
             "dxHtmlEditor-normalText": "!TODO!",
             "dxFileManager-newDirectoryName": "TODO",

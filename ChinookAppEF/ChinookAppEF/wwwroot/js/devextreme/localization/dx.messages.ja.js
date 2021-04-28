@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.ja.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9",
             "dxFileUploader-uploaded": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u6e08\u307f",
             "dxFileUploader-readyToUpload": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306e\u6e96\u5099\u4e2d",
+            "dxFileUploader-uploadAbortedMessage": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u304c\u30ad\u30e3\u30f3\u30bb\u30eb\u3055\u308c\u307e\u3057\u305f",
             "dxFileUploader-uploadFailedMessage": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306b\u5931\u6557\u3057\u307e\u3057\u305f",
             "dxFileUploader-invalidFileExtension": "\u3053\u306e\u30d5\u30a1\u30a4\u30eb\u306e\u7a2e\u985e\u3092\u4f7f\u7528\u3067\u304d\u307e\u305b\u3093",
             "dxFileUploader-invalidMaxFileSize": "\u30d5\u30a1\u30a4\u30eb\u304c\u5927\u304d\u3059\u304e\u307e\u3059",
@@ -156,6 +157,8 @@
             "dxDataGrid-headerFilterEmptyValue": "(\u7a7a\u767d)",
             "dxDataGrid-headerFilterOK": "OK",
             "dxDataGrid-headerFilterCancel": "\u30ad\u30e3\u30f3\u30bb\u30eb",
+            "dxDataGrid-ariaAdaptiveCollapse": "\u8ffd\u52a0\u30c7\u30fc\u30bf\u3092\u975e\u8868\u793a\u306b\u3059\u308b",
+            "dxDataGrid-ariaAdaptiveExpand": "\u8ffd\u52a0\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3059\u308b",
             "dxDataGrid-ariaColumn": "\u5217",
             "dxDataGrid-ariaValue": "\u5024",
             "dxDataGrid-ariaFilterCell": "\u30d5\u30a3\u30eb\u30bf\u30fc \u30bb\u30eb",
@@ -165,14 +168,18 @@
             "dxDataGrid-ariaSearchInGrid": "\u30c7\u30fc\u30bf \u30b0\u30ea\u30c3\u30c9\u5185\u3067\u691c\u7d22",
             "dxDataGrid-ariaSelectAll": "\u3059\u3079\u3066\u3092\u9078\u629e",
             "dxDataGrid-ariaSelectRow": "\u884c\u306e\u9078\u629e",
+            "dxDataGrid-ariaToolbar": "\u30c7\u30fc\u30bf \u30b0\u30ea\u30c3\u30c9\u306e\u30c4\u30fc\u30eb \u30d0\u30fc",
             "dxDataGrid-filterBuilderPopupTitle": "\u30d5\u30a3\u30eb\u30bf\u30fc \u30d3\u30eb\u30c0\u30fc",
             "dxDataGrid-filterPanelCreateFilter": "\u30d5\u30a3\u30eb\u30bf\u30fc\u306e\u4f5c\u6210",
             "dxDataGrid-filterPanelClearFilter": "\u30af\u30ea\u30a2",
             "dxDataGrid-filterPanelFilterEnabledHint": "\u30d5\u30a3\u30eb\u30bf\u30fc\u306e\u6709\u52b9\u5316",
             "dxTreeList-ariaTreeList": "\u30c4\u30ea\u30fc \u30ea\u30b9\u30c8",
+            "dxTreeList-ariaSearchInGrid": "\u30c4\u30ea\u30fc \u30ea\u30b9\u30c8\u5185\u3092\u691c\u7d22\u3059\u308b",
+            "dxTreeList-ariaToolbar": "\u30c4\u30ea\u30fc \u30ea\u30b9\u30c8\u306e\u30c4\u30fc\u30eb \u30d0\u30fc",
             "dxTreeList-editingAddRowToNode": "\u8ffd\u52a0",
             "dxPager-infoText": "\u30da\u30fc\u30b8 {0} / {1} ({2} \u30a2\u30a4\u30c6\u30e0)",
             "dxPager-pagesCountText": "/",
+            "dxPager-pageSizesAllText": "\u3059\u3079\u3066",
             "dxPivotGrid-grandTotal": "\u7dcf\u8a08",
             "dxPivotGrid-total": "{0} \u5408\u8a08",
             "dxPivotGrid-fieldChooserTitle": "\u30d5\u30a3\u30fc\u30eb\u30c9\u306e\u9078\u629e",
@@ -282,6 +289,9 @@
             "dxHtmlEditor-dialogImageAltField": "\u4ee3\u66ff\u30c6\u30ad\u30b9\u30c8",
             "dxHtmlEditor-dialogImageWidthField": "\u5e45 (px)",
             "dxHtmlEditor-dialogImageHeightField": "\u9ad8\u3055 (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "\u884c",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "\u5217",
+            "dxHtmlEditor-dialogInsertTableCaption": "\u30c6\u30fc\u30d6\u30eb\u306e\u633f\u5165",
             "dxHtmlEditor-heading": "\u898b\u51fa\u3057",
             "dxHtmlEditor-normalText": "\u6a19\u6e96\u30c6\u30ad\u30b9\u30c8",
             "dxFileManager-newDirectoryName": "\u7121\u984c\u306e\u30d5\u30a9\u30eb\u30c0",
@@ -307,6 +317,7 @@
             "dxFileManager-commandThumbnails": "\u7e2e\u5c0f\u8868\u793a",
             "dxFileManager-commandDetails": "\u8a73\u7d30\u8868\u793a",
             "dxFileManager-commandClearSelection": "\u9078\u629e\u306e\u30af\u30ea\u30a2",
+            "dxFileManager-commandShowNavPane": "\u30ca\u30d3\u30b2\u30fc\u30b7\u30e7\u30f3 \u30a6\u30a3\u30f3\u30c9\u30a6\u306e\u5207\u308a\u66ff\u3048",
             "dxFileManager-dialogDirectoryChooserMoveTitle": "\u79fb\u52d5\u5148",
             "dxFileManager-dialogDirectoryChooserMoveButtonText": "\u79fb\u52d5",
             "dxFileManager-dialogDirectoryChooserCopyTitle": "\u30b3\u30d4\u30fc\u5148",

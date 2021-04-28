@@ -1,0 +1,34 @@
+﻿@page "/Reports/{reportType}"
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+
+<DxDocumentViewer ReportName="@ReportCommand" Height="700px" Width="100%">
+	<DxDocumentViewerProgressBarSettings Position="@ProgressBarPosition.TopLeft" />
+	<DxDocumentViewerTabPanelSettings Width="500" />
+	<DxDocumentViewerRequestOptions HandlerUri="ViewerCsrf" />
+	<DxDocumentViewerCallbacks BeforeRender="ReportingConfigureCsrf.onBeforeRender_configureCsrf" />
+</DxDocumentViewer>
+
+
+
+@code {
+	[Parameter]
+	public string ReportType { get; set; }
+
+	[CascadingParameter]
+	CascadingState AppState { get; set; }
+
+	//public string SelectedIDs { get; set; }
+
+	public string ReportCommand { get => $"{ReportType}?ids="+string.Join(",", AppState.GetSelection()); }
+
+	protected override void OnInitialized()
+	{
+		//fetch querystring parameters
+		//var query = new Uri(NavigationManager.Uri).Query;
+		//if (QueryHelpers.ParseQuery(query).TryGetValue("reportSelectedIds", out var value))
+		//{
+		//	SelectedIDs = value;
+		//}
+	}
+}

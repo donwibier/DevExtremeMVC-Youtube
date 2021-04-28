@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.es.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Subir",
             "dxFileUploader-uploaded": "Subido",
             "dxFileUploader-readyToUpload": "Listo para subir",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "Falla ao subir",
             "dxFileUploader-invalidFileExtension": "Tipo de archivo no est\xe1 permitido",
             "dxFileUploader-invalidMaxFileSize": "Archivo es muy grande",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "A\xf1adir",
             "dxPager-infoText": "P\xe1gina {0} de {1} ({2} \xedtems)",
             "dxPager-pagesCountText": "de",
+            "dxPager-pageSizesAllText": "Todos",
             "dxPivotGrid-grandTotal": "Gran Total",
             "dxPivotGrid-total": "{0} Total",
             "dxPivotGrid-fieldChooserTitle": "Selector de Campos",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "Texto alternativo",
             "dxHtmlEditor-dialogImageWidthField": "Anchura (px)",
             "dxHtmlEditor-dialogImageHeightField": "Altura (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "Encabezamiento",
             "dxHtmlEditor-normalText": "Texto normal",
             "dxFileManager-newDirectoryName": "Sin t\xedtulo",
@@ -307,6 +312,7 @@
             "dxFileManager-commandThumbnails": "TODO",
             "dxFileManager-commandDetails": "TODO",
             "dxFileManager-commandClearSelection": "TODO",
+            "dxFileManager-commandShowNavPane": "TODO",
             "dxFileManager-dialogDirectoryChooserTitle": "TODO",
             "dxFileManager-dialogDirectoryChooserButtonText": "TODO",
             "dxFileManager-dialogRenameItemTitle": "TODO",

@@ -8,11 +8,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace ChinookAppEF
+namespace Library
 {
 	/// <summary>
 	/// Extension methods for use with DevExpress Blazor DataGrid
-	/// (Probably for DevExtreme MVC / ASP.NET Core Datagrid as well)
 	/// </summary>
 	public static class PropertyExtensions
 	{

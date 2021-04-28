@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.fi.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "L\xe4het\xe4",
             "dxFileUploader-uploaded": "L\xe4hetetty",
             "dxFileUploader-readyToUpload": "Valmis l\xe4hetett\xe4v\xe4ksi",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "L\xe4hetys ep\xe4onnistui",
             "dxFileUploader-invalidFileExtension": "",
             "dxFileUploader-invalidMaxFileSize": "",
@@ -89,7 +90,7 @@
             "dxSwitch-switchedOnText": "P\xc4\xc4LLE",
             "dxSwitch-switchedOffText": "POIS",
             "dxForm-optionalMark": "valinnainen",
-            "dxForm-requiredMessage": "{0} on valinnainen",
+            "dxForm-requiredMessage": "{0} on pakollinen",
             "dxNumberBox-invalidValueMessage": "Arvon on oltava numero",
             "dxNumberBox-noDataText": "Ei dataa",
             "dxDataGrid-columnChooserTitle": "Sarakkeenvalitsin",
@@ -173,6 +174,7 @@
             "dxTreeList-editingAddRowToNode": "Lis\xe4\xe4",
             "dxPager-infoText": "Sivu {0}/{1} ({2} kohdetta)",
             "dxPager-pagesCountText": "/",
+            "dxPager-pageSizesAllText": "Kaikki",
             "dxPivotGrid-grandTotal": "Loppusumma",
             "dxPivotGrid-total": "{0} Summa",
             "dxPivotGrid-fieldChooserTitle": "Kent\xe4n valitseminen",
@@ -282,6 +284,9 @@
             "dxHtmlEditor-dialogImageAltField": "!TODO!",
             "dxHtmlEditor-dialogImageWidthField": "!TODO!",
             "dxHtmlEditor-dialogImageHeightField": "!TODO!",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "!TODO!",
             "dxHtmlEditor-normalText": "!TODO!",
             "dxFileManager-newDirectoryName": "TODO",

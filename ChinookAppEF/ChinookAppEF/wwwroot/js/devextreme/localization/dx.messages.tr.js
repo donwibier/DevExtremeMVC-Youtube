@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.tr.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -77,6 +77,7 @@
             "dxFileUploader-upload": "Y\xfckleme",
             "dxFileUploader-uploaded": "Y\xfcklenen",
             "dxFileUploader-readyToUpload": "Y\xfcklemeye haz\u0131r",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "Y\xfckleme ba\u015far\u0131s\u0131z",
             "dxFileUploader-invalidFileExtension": "Dosya t\xfcr\xfcne izin verilmiyor",
             "dxFileUploader-invalidMaxFileSize": "Dosya \xe7ok b\xfcy\xfck",
@@ -170,6 +171,7 @@
             "dxTreeList-editingAddRowToNode": "Ekle",
             "dxPager-infoText": "Sayfa {0} / {1} ({2} veri)",
             "dxPager-pagesCountText": "aras\u0131nda",
+            "dxPager-pageSizesAllText": "T\xfcm\xfc",
             "dxPivotGrid-grandTotal": "Genel Toplam",
             "dxPivotGrid-total": "{0} Toplam",
             "dxPivotGrid-fieldChooserTitle": "Alan Se\xe7ici",
@@ -279,6 +281,9 @@
             "dxHtmlEditor-dialogImageAltField": "Alternatif metin",
             "dxHtmlEditor-dialogImageWidthField": "Geni\u015flik (px)",
             "dxHtmlEditor-dialogImageHeightField": "Y\xfckseklik (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "Ba\u015fl\u0131k",
             "dxHtmlEditor-normalText": "Normal metin",
             "dxFileManager-errorNoAccess": "Eri\u015fim reddedildi. \u0130\u015flem tamamlanam\u0131yor.",

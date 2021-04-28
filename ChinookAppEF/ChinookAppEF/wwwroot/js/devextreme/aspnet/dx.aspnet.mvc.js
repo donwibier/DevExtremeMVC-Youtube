@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.aspnet.mvc.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 ! function(factory) {
@@ -40,7 +40,14 @@
                 interpolate = code.charAt(0) === INTERPOLATE_QUALIFIER;
             if (encode || interpolate) {
                 bag.push("_.push(");
-                bag.push(encode ? "arguments[1](" + value + ")" : value);
+                var expression = value;
+                if (encode) {
+                    expression = "arguments[1]((" + value + " !== null && " + value + " !== undefined) ? " + value + ' : "")';
+                    if (/^\s*$/.test(value)) {
+                        expression = "arguments[1](" + value + ")"
+                    }
+                }
+                bag.push(expression);
                 bag.push(");")
             } else {
                 bag.push(code + "\n")

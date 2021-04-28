@@ -1,0 +1,25 @@
+﻿<CascadingValue Value="this">
+	@ChildContent
+</CascadingValue>
+
+@code {
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+
+	private List<int> selectedIDs = new List<int>();
+
+	public void ClearSelection()
+	{
+		selectedIDs.Clear();
+	}
+
+	public void AddSelection(IEnumerable<int> id)
+	{
+		selectedIDs.AddRange(id);
+	}
+
+	public IEnumerable<int> GetSelection()
+	{
+		return selectedIDs.Select(n => n);
+	}
+}

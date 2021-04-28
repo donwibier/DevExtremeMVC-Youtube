@@ -1,9 +1,9 @@
 /*!
 * DevExtreme (dx.messages.en.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 20.2.6
+* Build date: Tue Mar 16 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
@@ -80,6 +80,7 @@
             "dxFileUploader-upload": "Upload",
             "dxFileUploader-uploaded": "Uploaded",
             "dxFileUploader-readyToUpload": "Ready to upload",
+            "dxFileUploader-uploadAbortedMessage": "Upload cancelled",
             "dxFileUploader-uploadFailedMessage": "Upload failed",
             "dxFileUploader-invalidFileExtension": "File type is not allowed",
             "dxFileUploader-invalidMaxFileSize": "File is too large",
@@ -156,23 +157,29 @@
             "dxDataGrid-headerFilterEmptyValue": "(Blanks)",
             "dxDataGrid-headerFilterOK": "OK",
             "dxDataGrid-headerFilterCancel": "Cancel",
+            "dxDataGrid-ariaAdaptiveCollapse": "Hide additional data",
+            "dxDataGrid-ariaAdaptiveExpand": "Display additional data",
             "dxDataGrid-ariaColumn": "Column",
             "dxDataGrid-ariaValue": "Value",
             "dxDataGrid-ariaFilterCell": "Filter cell",
             "dxDataGrid-ariaCollapse": "Collapse",
             "dxDataGrid-ariaExpand": "Expand",
             "dxDataGrid-ariaDataGrid": "Data grid",
-            "dxDataGrid-ariaSearchInGrid": "Search in data grid",
+            "dxDataGrid-ariaSearchInGrid": "Search in the data grid",
             "dxDataGrid-ariaSelectAll": "Select all",
             "dxDataGrid-ariaSelectRow": "Select row",
+            "dxDataGrid-ariaToolbar": "Data grid toolbar",
             "dxDataGrid-filterBuilderPopupTitle": "Filter Builder",
             "dxDataGrid-filterPanelCreateFilter": "Create Filter",
             "dxDataGrid-filterPanelClearFilter": "Clear",
             "dxDataGrid-filterPanelFilterEnabledHint": "Enable the filter",
             "dxTreeList-ariaTreeList": "Tree list",
+            "dxTreeList-ariaSearchInGrid": "Search in the tree list",
+            "dxTreeList-ariaToolbar": "Tree list toolbar",
             "dxTreeList-editingAddRowToNode": "Add",
             "dxPager-infoText": "Page {0} of {1} ({2} items)",
             "dxPager-pagesCountText": "of",
+            "dxPager-pageSizesAllText": "All",
             "dxPivotGrid-grandTotal": "Grand Total",
             "dxPivotGrid-total": "{0} Total",
             "dxPivotGrid-fieldChooserTitle": "Field Chooser",
@@ -282,6 +289,9 @@
             "dxHtmlEditor-dialogImageAltField": "Alternate text",
             "dxHtmlEditor-dialogImageWidthField": "Width (px)",
             "dxHtmlEditor-dialogImageHeightField": "Height (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "Rows",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "Columns",
+            "dxHtmlEditor-dialogInsertTableCaption": "Insert Table",
             "dxHtmlEditor-heading": "Heading",
             "dxHtmlEditor-normalText": "Normal text",
             "dxFileManager-newDirectoryName": "Untitled directory",
@@ -307,6 +317,7 @@
             "dxFileManager-commandThumbnails": "Thumbnails View",
             "dxFileManager-commandDetails": "Details View",
             "dxFileManager-commandClearSelection": "Clear selection",
+            "dxFileManager-commandShowNavPane": "Toggle navigation pane",
             "dxFileManager-dialogDirectoryChooserMoveTitle": "Move to",
             "dxFileManager-dialogDirectoryChooserMoveButtonText": "Move",
             "dxFileManager-dialogDirectoryChooserCopyTitle": "Copy to",

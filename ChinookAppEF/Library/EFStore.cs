@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ChinookAppEF;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Library
@@ -24,7 +24,8 @@ namespace Library
 
 		TModel GetByKey(TKey key);
 
-		Task<LoadResult> SelectWithOptionsAsync(DataSourceLoadOptionsBase loadOptions);
+		Task<LoadResult> SelectWithOptionsAsync(DataSourceLoadOptionsBase loadOptions,
+			CancellationToken cancellationToken = default);
 
 		DataValidationResults<TKey> Create(params TModel[] items);
 
@@ -103,12 +104,13 @@ namespace Library
 			return EFQuery().ProjectTo<TModel>(Mapper.ConfigurationProvider);
 		}
 
-		public async virtual Task<LoadResult> SelectWithOptionsAsync(DataSourceLoadOptionsBase loadOptions)
+		public async virtual Task<LoadResult> SelectWithOptionsAsync(DataSourceLoadOptionsBase loadOptions,
+			CancellationToken cancellationToken = default)
 		{
 			if (loadOptions == null)
 				throw new ArgumentNullException(nameof(loadOptions));
 
-			var loadResult = await DataSourceLoader.LoadAsync(Query(), loadOptions);
+			var loadResult = await DataSourceLoader.LoadAsync(Query(), loadOptions, cancellationToken);
 			return loadResult;
 		}
 

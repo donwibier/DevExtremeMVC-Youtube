@@ -17,6 +17,6 @@
       </None>
     </ItemGroup>
 
-    <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>
+    <ProjectExtensions><VisualStudio><UserProperties DismissedDevExtremeVersion="20.2.3" TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>
 
 </Project>
